@@ -3,7 +3,7 @@
 internal class Program
 {
     private const string USERS_DATA =
-        "/Users/koanlin/Dev/projects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
+        "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
 
     private static void Main()
     {
