@@ -1,0 +1,29 @@
+# Users Data File
+# Format: Role,ID,Password,FullName,Email
+# IDs are 5-8 digit ints
+
+ADMIN,12345,admin123,David Adminson,david.adminson@hospital.com
+ADMIN,67890,secure456,Sarah Mitchell,sarah.mitchell@hospital.com
+ADMIN,11223,admin789,Michael Chen,m.chen@hospital.com
+DOCTOR,13267,password123,Dr. Jack Doctorson,drjack@hospital.com
+DOCTOR,54321,doctor123,Dr. Emily Chen,emily.chen@hospital.com
+DOCTOR,98765,medic456,Dr. Michael Roberts,m.roberts@hospital.com
+DOCTOR,24680,doc789,Dr. Lisa Anderson,l.anderson@hospital.com
+DOCTOR,13579,health321,Dr. James Wilson,j.wilson@hospital.com
+DOCTOR,86420,care456,Dr. Rebecca Brown,r.brown@hospital.com
+DOCTOR,97531,med789,Dr. Thomas Garcia,t.garcia@hospital.com
+PATIENT,10001,pass123,Jane Smith,jane.smith@email.com
+PATIENT,22222,mypass456,Robert Johnson,r.johnson@email.com
+PATIENT,33333,secure789,Maria Garcia,m.garcia@email.com
+PATIENT,44444,patient321,John Brown,j.brown@email.com
+PATIENT,55555,health654,Amanda White,a.white@email.com
+PATIENT,66666,pass987,Thomas Lee,t.lee@email.com
+PATIENT,77777,myhealth123,Sophie Martin,s.martin@email.com
+PATIENT,88888,patient456,Daniel Taylor,d.taylor@email.com
+PATIENT,99999,secure123,Emma Davis,e.davis@email.com
+PATIENT,10101,pass789,Oliver Wilson,o.wilson@email.com
+PATIENT,20202,health456,Isabella Moore,i.moore@email.com
+PATIENT,30303,patient789,Lucas Anderson,l.anderson@email.com
+PATIENT,40404,mypass321,Charlotte Harris,c.harris@email.com
+PATIENT,50505,secure654,William Martinez,w.martinez@email.com
+PATIENT,60606,pass456,Sophia Robinson,s.robinson@email.com
