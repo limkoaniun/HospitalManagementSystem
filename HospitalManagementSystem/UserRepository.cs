@@ -4,7 +4,7 @@ public class UserRepository
 {
     private readonly List<User> users;
 
-    private readonly string USERS_DATA =
+    private readonly string usersData =
         "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
 
     public UserRepository()
@@ -20,7 +20,7 @@ public class UserRepository
 
     private void LoadUsers()
     {
-        var lines = File.ReadAllLines(USERS_DATA);
+        var lines = File.ReadAllLines(usersData);
 
         // load users
         foreach (var line in lines)

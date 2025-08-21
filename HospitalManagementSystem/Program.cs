@@ -12,7 +12,7 @@ internal class Program
     private User? Login()
     {
         Console.Write("ID: ");
-        int idInput = Convert.ToInt32(Console.ReadLine());
+        var idInput = Convert.ToInt32(Console.ReadLine());
 
         Console.Write("Password: ");
         var password = Console.ReadLine();
@@ -30,7 +30,7 @@ internal class Program
     {
         while (true)
         {
-            User? currentUser = Login();
+            var currentUser = Login();
             if (currentUser == null)
             {
                 Console.WriteLine("Invalid credentials, try again.\n");
