@@ -2,12 +2,25 @@
 
 internal class Program
 {
-    private const string USERS_DATA =
+    private readonly List<User> users;
+
+    private readonly string USERS_DATA =
         "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
 
-    private static void Main()
+    private Program()
     {
-        var users = new List<User>();
+        users = new List<User>();
+        LoadUsers();
+    }
+
+    // GetUserById
+    private User? GetUserById(int id)
+    {
+        return users.FirstOrDefault(x => x.Id == id);
+    }
+
+    private void LoadUsers()
+    {
         var lines = File.ReadAllLines(USERS_DATA);
 
         // load users
@@ -16,20 +29,45 @@ internal class Program
             if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
 
             var parts = line.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            var user = User.CreateUserFromData(parts);
-            if (user != null) users.Add(user);
-        }
+            if (parts.Length < 5) continue;
 
-        // login loop
+            User user;
+
+            var role = parts[0];
+
+            if (role == "ADMIN")
+            {
+                user = new Administrator();
+            }
+            else if (role == "DOCTOR")
+            {
+                user = new Doctor();
+            }
+            else
+            {
+                user = new Patient();
+            }
+
+            // Format: Role,ID,Password,FullName,Email
+            user.Id = Convert.ToInt32(parts[1]);
+            user.Password = parts[2];
+            user.FullName = parts[3];
+            user.Email = parts[4];
+            users.Add(user);
+        }
+    }
+
+    private void Login()
+    {
         while (true)
         {
             Console.Write("ID: ");
-            var idInput = Console.ReadLine() ?? "";
+            int idInput = Convert.ToInt32(Console.ReadLine());
 
             Console.Write("Password: ");
-            var password = Console.ReadLine() ?? "";
+            var password = Console.ReadLine();
 
-            var currentUser = User.LoginWithUserId(users, idInput, password);
+            var currentUser = GetUserById(idInput);
 
             if (currentUser == null)
             {
@@ -38,7 +76,21 @@ internal class Program
             }
 
             Console.WriteLine($"Welcome, {currentUser.FullName} ({currentUser.Role})\n");
-            currentUser.RenderUserMenu(); // use of polymorphic!!
+            currentUser.Run(); // use of polymorphic
         }
+    }
+
+    private void Run()
+    {
+        while (true)
+        {
+            Login();
+        }
+    }
+
+    private static void Main()
+    {
+        var program = new Program();
+        program.Run();
     }
 }

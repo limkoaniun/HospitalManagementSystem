@@ -7,22 +7,13 @@ public class Doctor : User
         Role = "DOCTOR";
     }
 
-    public override void LoadUserFromData(string[] data)
-    {
-        // data.txt format: Role,ID,Password,FullName,Email
-        Id = Convert.ToInt32(data[1]);
-        Password = data[2];
-        FullName = data[3];
-        Email = data[4];
-    }
-
-    public override void RenderUserMenu()
+    public override void Run()
     {
         while (true)
         {
             Console.Clear();
             Console.WriteLine(" _____________________________________________________________");
-            Console.WriteLine(" |              DOTNET Hospital Management System            |");                             
+            Console.WriteLine(" |              DOTNET Hospital Management System            |");
             Console.WriteLine(" |___________________________________________________________|");
             Console.WriteLine(" |                         Doctor Menu                       |");
             Console.WriteLine(" |___________________________________________________________|");

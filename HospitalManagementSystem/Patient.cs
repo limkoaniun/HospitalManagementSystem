@@ -7,16 +7,7 @@ public class Patient : User
         Role = "PATIENT";
     }
 
-    public override void LoadUserFromData(string[] data)
-    {
-        // data.txt format: Role,ID,Password,FullName,Email
-        Id = Convert.ToInt32(data[1]);
-        Password = data[2];
-        FullName = data[3];
-        Email = data[4];
-    }
-
-    public override void RenderUserMenu()
+    public override void Run()
     {
         while (true)
         {
