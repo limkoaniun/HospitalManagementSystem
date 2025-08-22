@@ -3,7 +3,8 @@ namespace HospitalManagementSystem;
 public class UserRepository
 {
     private readonly List<User> users;
-
+    
+    // Todo: use FileStream for this
     private readonly string usersData =
         "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
 
