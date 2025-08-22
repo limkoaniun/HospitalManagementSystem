@@ -58,7 +58,7 @@ public class UserRepository
                         user = new Patient();
                     }
 
-                    // Format: Role,ID,Password,FullName,Email
+                    // Data Format: Role,ID,Password,FullName,Email
                     user.Id = Convert.ToInt32(parts[1]);
                     user.Password = parts[2];
                     user.FullName = parts[3];
