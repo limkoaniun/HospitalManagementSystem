@@ -24,7 +24,7 @@ internal class Program
         Console.Write("ID: ");
         if (!int.TryParse(Console.ReadLine(), out var idInput))
         {
-            Console.WriteLine("Invalid ID format.\n");
+            Console.WriteLine("Invalid ID format.");
             return null;
         }
 
@@ -34,7 +34,7 @@ internal class Program
         var currentUser = userRepository.GetUserById(idInput);
         if (currentUser == null || currentUser.Password != password)
         {
-            Console.WriteLine("Invalid credentials.\n");
+            Console.WriteLine("Invalid credentials.");
             return null;
         }
 

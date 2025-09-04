@@ -38,7 +38,7 @@ public class UserRepository
                 {
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
 
-                    var parts = line.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    var parts = line.Split("|-|", StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length < 5) continue;
 
                     User user;
@@ -58,11 +58,13 @@ public class UserRepository
                         user = new Patient();
                     }
 
-                    // Data Format: Role,ID,Password,FullName,Email
+                    // Format: Role,ID,Password,FullName,Email,PhoneNumber,Address
                     user.Id = Convert.ToInt32(parts[1]);
                     user.Password = parts[2];
                     user.FullName = parts[3];
                     user.Email = parts[4];
+                    user.Phone = parts[5];
+                    user.Address = parts[6];
 
                     users.Add(user);
                 }

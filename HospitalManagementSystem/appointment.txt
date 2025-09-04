@@ -1,0 +1,23 @@
+# Patient-to-Doctor Appointments
+# Format: PatientID|-|DoctorID|-|SymptomDescription
+
+10001|-|98765|-|Flu and fever
+10001|-|54321|-|Routine check-up
+22222|-|24680|-|Back pain
+33333|-|13267|-|Migraine headaches
+33333|-|97531|-|Stomach cramps
+44444|-|86420|-|Skin rash
+55555|-|13579|-|High blood pressure
+55555|-|98765|-|Chest pain
+66666|-|54321|-|Diabetes follow-up
+77777|-|24680|-|Asthma management
+88888|-|13267|-|Allergic reaction
+99999|-|97531|-|Pregnancy consultation
+10101|-|86420|-|Sprained ankle
+10101|-|13579|-|Knee pain
+20202|-|98765|-|Persistent cough
+30303|-|54321|-|Ear infection
+40404|-|24680|-|Eye irritation
+50505|-|13267|-|Annual physical exam
+60606|-|97531|-|Fatigue and dizziness
+60606|-|98765|-|High cholesterol

@@ -1,29 +1,31 @@
 # Users Data File
-# Format: Role,ID,Password,FullName,Email
+# Format: Role|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
 # IDs are 5-8 digit ints
 
-ADMIN,12345,admin123,David Adminson,david.adminson@hospital.com
-ADMIN,67890,secure456,Sarah Mitchell,sarah.mitchell@hospital.com
-ADMIN,11223,admin789,Michael Chen,m.chen@hospital.com
-DOCTOR,13267,password123,Dr. Jack Doctorson,drjack@hospital.com
-DOCTOR,54321,doctor123,Dr. Emily Chen,emily.chen@hospital.com
-DOCTOR,98765,medic456,Dr. Michael Roberts,m.roberts@hospital.com
-DOCTOR,24680,doc789,Dr. Lisa Anderson,l.anderson@hospital.com
-DOCTOR,13579,health321,Dr. James Wilson,j.wilson@hospital.com
-DOCTOR,86420,care456,Dr. Rebecca Brown,r.brown@hospital.com
-DOCTOR,97531,med789,Dr. Thomas Garcia,t.garcia@hospital.com
-PATIENT,10001,pass123,Jane Smith,jane.smith@email.com
-PATIENT,22222,mypass456,Robert Johnson,r.johnson@email.com
-PATIENT,33333,secure789,Maria Garcia,m.garcia@email.com
-PATIENT,44444,patient321,John Brown,j.brown@email.com
-PATIENT,55555,health654,Amanda White,a.white@email.com
-PATIENT,66666,pass987,Thomas Lee,t.lee@email.com
-PATIENT,77777,myhealth123,Sophie Martin,s.martin@email.com
-PATIENT,88888,patient456,Daniel Taylor,d.taylor@email.com
-PATIENT,99999,secure123,Emma Davis,e.davis@email.com
-PATIENT,10101,pass789,Oliver Wilson,o.wilson@email.com
-PATIENT,20202,health456,Isabella Moore,i.moore@email.com
-PATIENT,30303,patient789,Lucas Anderson,l.anderson@email.com
-PATIENT,40404,mypass321,Charlotte Harris,c.harris@email.com
-PATIENT,50505,secure654,William Martinez,w.martinez@email.com
-PATIENT,60606,pass456,Sophia Robinson,s.robinson@email.com
+ADMIN|-|12345|-|admin123|-|David Adminson|-|david.adminson@hospital.com|-|0412001000|-|19 George Street, Sydney, NSW
+ADMIN|-|67890|-|secure456|-|Sarah Mitchell|-|sarah.mitchell@hospital.com|-|0412001001|-|45 Pitt Street, Sydney, NSW
+ADMIN|-|11223|-|admin789|-|Michael Chen|-|m.chen@hospital.com|-|0412001002|-|78 Castlereagh Street, Sydney, NSW
+DOCTOR|-|13267|-|password123|-|Dr. Jack Doctorson|-|drjack@hospital.com|-|0412102000|-|12 Oxford Street, Paddington, NSW
+DOCTOR|-|54321|-|doctor123|-|Dr. Emily Chen|-|emily.chen@hospital.com|-|0412102001|-|34 Crown Street, Surry Hills, NSW
+DOCTOR|-|98765|-|medic456|-|Dr. Michael Roberts|-|m.roberts@hospital.com|-|0412102002|-|56 Cleveland Street, Redfern, NSW
+DOCTOR|-|24680|-|doc789|-|Dr. Lisa Anderson|-|l.anderson@hospital.com|-|0412102003|-|78 King Street, Newtown, NSW
+DOCTOR|-|13579|-|health321|-|Dr. James Wilson|-|j.wilson@hospital.com|-|0412102004|-|90 Parramatta Road, Camperdown, NSW
+DOCTOR|-|86420|-|care456|-|Dr. Rebecca Brown|-|r.brown@hospital.com|-|0412102005|-|11 Pacific Highway, North Sydney, NSW
+DOCTOR|-|97531|-|med789|-|Dr. Thomas Garcia|-|t.garcia@hospital.com|-|0412102006|-|22 Miller Street, North Sydney, NSW
+PATIENT|-|10001|-|pass123|-|Jane Smith|-|jane.smith@email.com|-|0412303000|-|101 Harris Street, Pyrmont, NSW
+PATIENT|-|22222|-|mypass456|-|Robert Johnson|-|r.johnson@email.com|-|0412303001|-|202 Kent Street, Millers Point, NSW
+PATIENT|-|33333|-|secure789|-|Maria Garcia|-|m.garcia@email.com|-|0412303002|-|303 Sussex Street, Sydney, NSW
+PATIENT|-|44444|-|patient321|-|John Brown|-|j.brown@email.com|-|0412303003|-|404 Bourke Street, Darlinghurst, NSW
+PATIENT|-|55555|-|health654|-|Amanda White|-|a.white@email.com|-|0412303004|-|505 Elizabeth Street, Surry Hills, NSW
+PATIENT|-|66666|-|pass987|-|Thomas Lee|-|t.lee@email.com|-|0412303005|-|606 Glebe Point Road, Glebe, NSW
+PATIENT|-|77777|-|myhealth123|-|Sophie Martin|-|s.martin@email.com|-|0412303006|-|707 King Street, Newtown, NSW
+PATIENT|-|88888|-|patient456|-|Daniel Taylor|-|d.taylor@email.com|-|0412303007|-|808 George Street, Haymarket, NSW
+PATIENT|-|99999|-|secure123|-|Emma Davis|-|e.davis@email.com|-|0412303008|-|909 York Street, Sydney, NSW
+PATIENT|-|10101|-|pass789|-|Oliver Wilson|-|o.wilson@email.com|-|0412303009|-|111 Riley Street, Darlinghurst, NSW
+PATIENT|-|20202|-|health456|-|Isabella Moore|-|i.moore@email.com|-|0412303010|-|222 Pittwater Road, Manly, NSW
+PATIENT|-|30303|-|patient789|-|Lucas Anderson|-|l.anderson@email.com|-|0412303011|-|333 Falcon Street, Neutral Bay, NSW
+PATIENT|-|40404|-|mypass321|-|Charlotte Harris|-|c.harris@email.com|-|0412303012|-|444 Miller Street, Cammeray, NSW
+PATIENT|-|50505|-|secure654|-|William Martinez|-|w.martinez@email.com|-|0412303013|-|555 Lane Cove Road, Macquarie Park, NSW
+PATIENT|-|60606|-|pass456|-|Sophia Robinson|-|s.robinson@email.com|-|0412303014|-|666 Pacific Highway, Chatswood, NSW
+
+

@@ -7,13 +7,33 @@ public class Patient : User
         Role = "PATIENT";
     }
 
+    public void RenderPatientDetails()
+    {
+        Console.Clear();
+
+        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
+        Console.WriteLine("│              DOTNET Hospital Management System              │");
+        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
+        Console.WriteLine("│                          My Details                         │");
+        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
+        Console.WriteLine();
+
+        Console.WriteLine("{0}'s Details", FullName);
+        Console.WriteLine();
+        Console.WriteLine("Patient ID: {0}", Id);
+        Console.WriteLine("Full Name: {0}", FullName);
+        Console.WriteLine("Address: {0}", Address);
+        Console.WriteLine("Email: {0}", Email);
+        Console.WriteLine("Phone: {0}", Phone);
+    }
+
     public override void Run()
     {
         while (true)
         {
             Console.Clear();
 
-            string welcome = $"Welcome to DOTNET Hospital Management System {FullName}";
+            string welcome = $"Welcome to DOTNET Hospital Management System, {FullName}";
 
             // Header box
             Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
@@ -39,7 +59,9 @@ public class Patient : User
 
             switch (choice)
             {
-                case "1": Console.WriteLine("List patient details selected."); break;
+                case "1":
+                    RenderPatientDetails();
+                    break;
                 case "2": Console.WriteLine("List my doctor details selected."); break;
                 case "3": Console.WriteLine("List all appointments selected."); break;
                 case "4": Console.WriteLine("Book appointment selected."); break;
