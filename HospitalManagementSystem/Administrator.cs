@@ -7,7 +7,7 @@ public class Administrator : User
         Role = "ADMIN";
     }
 
-    public override void Run()
+    public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)
         {
@@ -42,30 +42,68 @@ public class Administrator : User
             switch (input)
             {
                 case "1":
-                    Console.WriteLine("List all doctors selected.");
+                    // TODO: implement GetAllDoctors() in UserRepository
+                    // var doctors = userRepository.GetAllDoctors();
+                    // Console.WriteLine("Doctors:");
+                    // foreach (var doc in doctors)
+                    // {
+                    //     Console.WriteLine($"{doc.Id} - {doc.FullName} ({doc.Email})");
+                    // }
+                    Console.WriteLine("List all doctors (not yet implemented).");
                     break;
+
                 case "2":
-                    Console.WriteLine("Check doctor details selected.");
+                    Console.Write("Enter Doctor ID: ");
+                    if (int.TryParse(Console.ReadLine(), out int docId))
+                    {
+                        var doctor = userRepository.GetUserById(docId);
+                        if (doctor != null && doctor.Role == "DOCTOR")
+                            doctor.DisplayDetails();
+                        else
+                            Console.WriteLine("Doctor not found.");
+                    }
                     break;
+
                 case "3":
-                    Console.WriteLine("List all patients selected.");
+                    // TODO: implement GetAllPatients() in UserRepository
+                    // var patients = userRepository.GetAllPatients();
+                    // Console.WriteLine("Patients:");
+                    // foreach (var pat in patients)
+                    // {
+                    //     Console.WriteLine($"{pat.Id} - {pat.FullName} ({pat.Email})");
+                    // }
+                    Console.WriteLine("List all patients (not yet implemented).");
                     break;
+
                 case "4":
-                    Console.WriteLine("Check patient details selected.");
+                    Console.Write("Enter Patient ID: ");
+                    if (int.TryParse(Console.ReadLine(), out int patId))
+                    {
+                        var patient = userRepository.GetUserById(patId);
+                        if (patient != null && patient.Role == "PATIENT")
+                            patient.DisplayDetails();
+                        else
+                            Console.WriteLine("Patient not found.");
+                    }
                     break;
+
                 case "5":
-                    Console.WriteLine("Add doctor selected.");
+                    Console.WriteLine("Add doctor selected. (Not implemented)");
                     break;
+
                 case "6":
-                    Console.WriteLine("Add patient selected.");
+                    Console.WriteLine("Add patient selected. (Not implemented)");
                     break;
+
                 case "7":
                     Console.WriteLine("Logging out...");
                     return; // back to login
+
                 case "8":
                     Console.WriteLine("Exiting system...");
                     Environment.Exit(0);
                     break;
+
                 default:
                     Console.WriteLine("Invalid option. Try again.");
                     break;

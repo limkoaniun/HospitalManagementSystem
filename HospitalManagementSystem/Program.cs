@@ -1,69 +1,79 @@
-﻿namespace HospitalManagementSystem;
+﻿using System;
 
-internal class Program
+namespace HospitalManagementSystem
 {
-    private UserRepository userRepository;
-
-    private Program()
+    internal class Program
     {
-        userRepository = new UserRepository();
-    }
+        private readonly UserRepository userRepository;
+        private readonly AppointmentRepository appointmentRepository;
 
-    private User? Login()
-    {
-        Console.Clear();
-
-        // Header box
-        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-        Console.WriteLine("│              DOTNET Hospital Management System              │");
-        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-        Console.WriteLine("│                          Login                              │");
-        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-        Console.WriteLine();
-
-        Console.Write("ID: ");
-        if (!int.TryParse(Console.ReadLine(), out var idInput))
+        private Program()
         {
-            Console.WriteLine("Invalid ID format.");
-            return null;
+            userRepository = new UserRepository();
+            appointmentRepository = new AppointmentRepository();
         }
 
-        Console.Write("Password: ");
-        var password = Console.ReadLine();
-
-        var currentUser = userRepository.GetUserById(idInput);
-        if (currentUser == null || currentUser.Password != password)
+        private User? Login()
         {
-            Console.WriteLine("Invalid credentials.");
-            return null;
-        }
+            Console.Clear();
 
-        Console.WriteLine("Valid Credentials\n");
-        return currentUser;
-    }
+            // Header box
+            Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
+            Console.WriteLine("│              DOTNET Hospital Management System              │");
+            Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
+            Console.WriteLine("│                          Login                              │");
+            Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
+            Console.WriteLine();
 
-    private void Run()
-    {
-        while (true)
-        {
-            var currentUser = Login();
-
-            if (currentUser == null)
+            Console.Write("ID: ");
+            string? idText = Console.ReadLine();
+            int idInput;
+            try
             {
-                Console.WriteLine("Invalid credentials, try again.\n");
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey(true);
-                continue;
+                idInput = Convert.ToInt32(idText);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid ID format.");
+                return null;
             }
 
-            Console.WriteLine("Welcome, {0} ({1})\n", currentUser.FullName, currentUser.Role);
-            currentUser.Run(); // goes into Doctor/Admin/Patient menu
-        }
-    }
+            Console.Write("Password: ");
+            string? password = Console.ReadLine();
 
-    private static void Main()
-    {
-        var program = new Program();
-        program.Run();
+            var currentUser = userRepository.GetUserById(idInput);
+            if (currentUser == null || currentUser.Password != password)
+            {
+                Console.WriteLine("Invalid credentials.");
+                return null;
+            }
+
+            Console.WriteLine("Valid credentials\n");
+            return currentUser;
+        }
+
+        private void Run()
+        {
+            while (true)
+            {
+                var currentUser = Login();
+                if (currentUser == null)
+                {
+                    Console.WriteLine("Invalid credentials, try again.\n");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey(true);
+                    continue;
+                }
+
+                Console.WriteLine("Welcome, {0} ({1})\n", currentUser.FullName, currentUser.Role);
+                currentUser.Run(userRepository, appointmentRepository); // Goes into Doctor/Admin/Patient menu
+            }
+        }
+
+        private static void Main()
+        {
+            var program = new Program();
+            program.Run();
+        }
     }
 }

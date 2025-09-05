@@ -39,7 +39,7 @@ public class UserRepository
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
 
                     var parts = line.Split("|-|", StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length < 5) continue;
+                    if (parts.Length < 7) continue;
 
                     User user;
 

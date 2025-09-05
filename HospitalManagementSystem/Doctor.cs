@@ -7,8 +7,7 @@ public class Doctor : User
         Role = "DOCTOR";
     }
 
-
-    public override void Run()
+    public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)
         {
@@ -41,20 +40,46 @@ public class Doctor : User
 
             switch (choice)
             {
-                case "1": Console.WriteLine("List doctor details selected."); break;
-                case "2": Console.WriteLine("List patients selected."); break;
-                case "3": Console.WriteLine("List appointments selected."); break;
-                case "4": Console.WriteLine("Check particular patient selected."); break;
-                case "5": Console.WriteLine("List appointments with patient selected."); break;
+                case "1":
+                    // Example: doctor details (could use DisplayDetails)
+                    this.DisplayDetails();
+                    break;
+
+                case "2":
+                    Console.WriteLine("List patients selected.");
+                    break;
+
+                case "3":
+                    // Use appointmentRepository to show doctor’s appointments
+                    var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
+                    Console.WriteLine("My Appointments:");
+                    foreach (var appt in myAppointments)
+                    {
+                        Console.WriteLine($"PatientID: {appt.PatientID}, Symptoms: {appt.SymptomsDescription}");
+                    }
+
+                    break;
+
+                case "4":
+                    Console.WriteLine("Check particular patient selected.");
+                    break;
+
+                case "5":
+                    Console.WriteLine("List appointments with patient selected.");
+                    break;
+
                 case "6":
                     Console.WriteLine("Logging out...");
                     return;
+
                 case "7":
                     Console.WriteLine("Exiting system...");
                     Environment.Exit(0);
                     break;
+
                 default:
-                    Console.WriteLine("Invalid option. Try again."); break;
+                    Console.WriteLine("Invalid option. Try again.");
+                    break;
             }
 
             Console.WriteLine();

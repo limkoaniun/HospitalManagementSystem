@@ -18,5 +18,5 @@ public abstract class User
         Console.WriteLine($"Role: {Role}");
     }
 
-    public abstract void Run();
+    public abstract void Run(UserRepository userRepository, AppointmentRepository appointmentRepository);
 }

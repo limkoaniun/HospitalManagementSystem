@@ -6,7 +6,19 @@ public class Patient : User
     {
         Role = "PATIENT";
     }
-
+    
+    public void ShowAppointments(AppointmentRepository appointmentRepository)
+    {
+        var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
+        Console.WriteLine("My Appointments:");
+        foreach (var appt in myAppointments)
+        {
+            Console.WriteLine("PatientID: {0}, DoctorID: {1}, Symptoms: {2}",
+                appt.PatientID, appt.DoctorID, appt.SymptomsDescription);
+            Console.WriteLine("----------------------------------------");
+        }
+    }
+    
     public void RenderPatientDetails()
     {
         Console.Clear();
@@ -27,7 +39,7 @@ public class Patient : User
         Console.WriteLine("Phone: {0}", Phone);
     }
 
-    public override void Run()
+    public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)
         {
@@ -62,9 +74,15 @@ public class Patient : User
                 case "1":
                     RenderPatientDetails();
                     break;
-                case "2": Console.WriteLine("List my doctor details selected."); break;
-                case "3": Console.WriteLine("List all appointments selected."); break;
-                case "4": Console.WriteLine("Book appointment selected."); break;
+                case "2":
+                    Console.WriteLine("List my doctor details selected.");
+                    break;
+                case "3":
+                    ShowAppointments(appointmentRepository);
+                    break;
+                case "4":
+                    Console.WriteLine("Book appointment selected.");
+                    break;
                 case "5":
                     Console.WriteLine("Returning to login...");
                     return;
