@@ -6,6 +6,35 @@ public class Administrator : User
     {
         Role = "ADMIN";
     }
+    
+    private void RenderAllDoctorsDetails(UserRepository userRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("All Doctors");
+
+        var doctors = userRepository.GetAllDoctors();
+
+        if (doctors.Count == 0)
+        {
+            Console.WriteLine("No doctors registered in the system.");
+            return;
+        }
+
+        Console.WriteLine("All doctors registered to the DOTNET Hospital Management System");
+        Console.WriteLine();
+        Console.WriteLine($"{"Name",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 90));
+
+        foreach (var doc in doctors)
+        {
+            string name = doc.FullName ?? $"Doctor#{doc.Id}";
+            string email = doc.Email ?? "";
+            string phone = doc.Phone ?? "";
+            string address = doc.Address ?? "";
+            Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
+        }
+    }
+
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
@@ -37,14 +66,7 @@ public class Administrator : User
             switch (input)
             {
                 case "1":
-                    // TODO: implement GetAllDoctors() in UserRepository
-                    // var doctors = userRepository.GetAllDoctors();
-                    // Console.WriteLine("Doctors:");
-                    // foreach (var doc in doctors)
-                    // {
-                    //     Console.WriteLine($"{doc.Id} - {doc.FullName} ({doc.Email})");
-                    // }
-                    Console.WriteLine("List all doctors (not yet implemented).");
+                    RenderAllDoctorsDetails(userRepository);
                     break;
 
                 case "2":
