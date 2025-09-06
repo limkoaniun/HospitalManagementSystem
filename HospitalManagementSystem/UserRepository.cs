@@ -46,6 +46,18 @@ public class UserRepository
 
         return null; // no match found
     }
+    
+    public List<User> GetAllPatients()
+    {
+        var result = new List<User>();
+        foreach (var u in users)
+        {
+            if (u.Role == "PATIENT")
+                result.Add(u);
+        }
+        return result;
+    }
+
 
 
     private void LoadUsers()

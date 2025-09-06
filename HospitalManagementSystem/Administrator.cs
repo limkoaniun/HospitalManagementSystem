@@ -72,6 +72,52 @@ public class Administrator : User
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
+    
+    private void RenderAllPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("All Patients");
+
+        var patients = userRepository.GetAllPatients();
+        if (patients.Count == 0)
+        {
+            Console.WriteLine("No patients registered in the system.");
+            return;
+        }
+
+        Console.WriteLine("All patients registered to the DOTNET Hospital Management System");
+        Console.WriteLine();
+        Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 120));
+
+        foreach (var patient in patients)
+        {
+            // find the first linked doctor for this patient (if any)
+            var appts = appointmentRepository.GetAppointmentsByUserID(patient.Id);
+            int? doctorId = null;
+            foreach (var a in appts)
+            {
+                if (a.PatientID == patient.Id)
+                {
+                    doctorId = a.DoctorID;
+                    break; // first one is enough
+                }
+            }
+
+            var doctor = doctorId.HasValue ? userRepository.GetUserById(doctorId.Value) : null;
+
+            string patientName = patient.FullName ?? $"Patient#{patient.Id}";
+            string doctorName  = (doctor != null && doctor.Role == "DOCTOR")
+                ? doctor.FullName
+                : "Unassigned";
+            string email = patient.Email ?? "";
+            string phone = patient.Phone ?? "";
+            string addr  = patient.Address ?? "";
+
+            Console.WriteLine($"{patientName,-20} | {doctorName,-20} | {email,-25} | {phone,-12} | {addr}");
+        }
+    }
+
 
 
 
@@ -113,14 +159,7 @@ public class Administrator : User
                     break;
 
                 case "3":
-                    // TODO: implement GetAllPatients() in UserRepository
-                    // var patients = userRepository.GetAllPatients();
-                    // Console.WriteLine("Patients:");
-                    // foreach (var pat in patients)
-                    // {
-                    //     Console.WriteLine($"{pat.Id} - {pat.FullName} ({pat.Email})");
-                    // }
-                    Console.WriteLine("List all patients (not yet implemented).");
+                    RenderAllPatientsDetails(userRepository, appointmentRepository);
                     break;
 
                 case "4":
