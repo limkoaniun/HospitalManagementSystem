@@ -68,6 +68,42 @@ public class Doctor : User
             Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
         }
     }
+    
+    public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("All Appointments");
+
+        // Table header
+        Console.WriteLine($"{"Doctor",-20} | {"Patient",-20} | Description");
+        Console.WriteLine(new string('-', 70));
+
+        // Get only this doctor's appointments
+        var appts = appointmentRepository.GetAppointmentsByUserID(Id);
+
+        // Keep only rows where this doctor is the doctor
+        var hasAny = false;
+        foreach (var a in appts)
+        {
+            if (a.DoctorID != Id) continue;
+
+            hasAny = true;
+
+            var doctor = this; // current user
+            var patient = userRepository.GetUserById(a.PatientID);
+
+            string doctorName = doctor?.FullName ?? $"Doctor#{Id}";
+            string patientName = patient?.FullName ?? $"Patient#{a.PatientID}";
+            string desc = a.SymptomsDescription ?? "";
+
+            Console.WriteLine($"{doctorName,-20} | {patientName,-20} | {desc}");
+        }
+
+        if (!hasAny)
+        {
+            Console.WriteLine("No appointments found.");
+        }
+    }
 
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
@@ -107,14 +143,7 @@ public class Doctor : User
                     break;
 
                 case "3":
-                    // Use appointmentRepository to show doctor’s appointments
-                    var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
-                    Console.WriteLine("My Appointments:");
-                    foreach (var appt in myAppointments)
-                    {
-                        Console.WriteLine($"PatientID: {appt.PatientID}, Symptoms: {appt.SymptomsDescription}");
-                    }
-
+                    RenderAppointments(userRepository, appointmentRepository);
                     break;
 
                 case "4":
