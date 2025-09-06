@@ -17,7 +17,6 @@ namespace HospitalManagementSystem
         {
             Console.Clear();
 
-            // Header box
             Ui.RenderHeader("Login");
 
             Console.Write("ID: ");
@@ -29,7 +28,7 @@ namespace HospitalManagementSystem
             }
             catch
             {
-                Console.WriteLine("Invalid ID format.");
+                // Don’t print here, just return null
                 return null;
             }
 
@@ -39,11 +38,10 @@ namespace HospitalManagementSystem
             var currentUser = userRepository.GetUserById(idInput);
             if (currentUser == null || currentUser.Password != password)
             {
-                Console.WriteLine("Invalid credentials.");
+                // Don’t print here, just return null
                 return null;
             }
 
-            Console.WriteLine("Valid credentials\n");
             return currentUser;
         }
 
@@ -60,7 +58,7 @@ namespace HospitalManagementSystem
                     continue;
                 }
 
-                Console.WriteLine("Welcome, {0} ({1})\n", currentUser.FullName, currentUser.Role);
+                Console.WriteLine("Welcome, {0} ({1})", currentUser.FullName, currentUser.Role);
                 currentUser.Run(userRepository, appointmentRepository); // Goes into Doctor/Admin/Patient menu
             }
         }
