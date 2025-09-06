@@ -142,8 +142,7 @@ public class Patient : User
         Console.WriteLine("Invalid option. Press any key to return...");
         Console.ReadKey(true);
     }
-
-
+    
     public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();

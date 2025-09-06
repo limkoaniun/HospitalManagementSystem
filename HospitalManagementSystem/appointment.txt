@@ -21,3 +21,5 @@
 50505|-|13267|-|Annual physical exam
 60606|-|97531|-|Fatigue and dizziness
 60606|-|98765|-|High cholesterol
+60606|-|97531|-|vaccination
+60606|-|13579|-|vaccination

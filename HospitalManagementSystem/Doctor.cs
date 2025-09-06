@@ -6,6 +6,26 @@ public class Doctor : User
     {
         Role = "DOCTOR";
     }
+    
+    public void RenderDoctorDetails()
+    {
+        Console.Clear();
+
+        Ui.RenderHeader("My Details");
+
+        // Table header
+        Console.WriteLine($"{"Name",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 90));
+
+        // Row for this doctor
+        string name = FullName ?? $"Doctor#{Id}";
+        string email = Email ?? "";
+        string phone = Phone ?? "";
+        string address = Address ?? "";
+
+        Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
+    }
+
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
@@ -36,8 +56,7 @@ public class Doctor : User
             switch (choice)
             {
                 case "1":
-                    // Example: doctor details (could use DisplayDetails)
-                    this.DisplayDetails();
+                    RenderDoctorDetails();
                     break;
 
                 case "2":

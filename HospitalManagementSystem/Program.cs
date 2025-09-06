@@ -16,7 +16,6 @@ namespace HospitalManagementSystem
         private User? Login()
         {
             Console.Clear();
-
             Ui.RenderHeader("Login");
 
             Console.Write("ID: ");
@@ -28,7 +27,6 @@ namespace HospitalManagementSystem
             }
             catch
             {
-                // Don’t print here, just return null
                 return null;
             }
 
@@ -38,7 +36,6 @@ namespace HospitalManagementSystem
             var currentUser = userRepository.GetUserById(idInput);
             if (currentUser == null || currentUser.Password != password)
             {
-                // Don’t print here, just return null
                 return null;
             }
 

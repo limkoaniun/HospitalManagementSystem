@@ -34,7 +34,6 @@ public class UserRepository
         return null;
     }
 
-
     public User? GetUserById(int id)
     {
         return users.FirstOrDefault(x => x.Id == id);
@@ -59,7 +58,7 @@ public class UserRepository
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
 
                     var parts = line.Split("|-|", StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length < 7) continue;
+                    if (parts.Length != 7) continue;
 
                     User user;
 
