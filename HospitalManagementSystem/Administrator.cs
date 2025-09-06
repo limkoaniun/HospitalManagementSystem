@@ -6,7 +6,7 @@ public class Administrator : User
     {
         Role = "ADMIN";
     }
-    
+
     private void RenderAllDoctorsDetails(UserRepository userRepository)
     {
         Console.Clear();
@@ -34,7 +34,7 @@ public class Administrator : User
             Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
         }
     }
-    
+
     private void RenderDoctorDetailsWithId(UserRepository userRepository)
     {
         Console.Clear();
@@ -72,7 +72,7 @@ public class Administrator : User
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
-    
+
     private void RenderAllPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -107,12 +107,12 @@ public class Administrator : User
             var doctor = doctorId.HasValue ? userRepository.GetUserById(doctorId.Value) : null;
 
             string patientName = patient.FullName ?? $"Patient#{patient.Id}";
-            string doctorName  = (doctor != null && doctor.Role == "DOCTOR")
+            string doctorName = (doctor != null && doctor.Role == "DOCTOR")
                 ? doctor.FullName
                 : "Unassigned";
             string email = patient.Email ?? "";
             string phone = patient.Phone ?? "";
-            string addr  = patient.Address ?? "";
+            string addr = patient.Address ?? "";
 
             Console.WriteLine($"{patientName,-20} | {doctorName,-20} | {email,-25} | {phone,-12} | {addr}");
         }
@@ -153,6 +153,7 @@ public class Administrator : User
                 break;
             }
         }
+
         var doctor = doctorId.HasValue ? userRepository.GetUserById(doctorId.Value) : null;
 
         Console.WriteLine($"Details for {patient.FullName}");
@@ -161,14 +162,67 @@ public class Administrator : User
         Console.WriteLine(new string('-', 120));
 
         string patientName = patient.FullName ?? $"Patient#{patient.Id}";
-        string doctorName  = (doctor != null && doctor.Role == "DOCTOR") ? doctor.FullName : "Unassigned";
+        string doctorName = (doctor != null && doctor.Role == "DOCTOR") ? doctor.FullName : "Unassigned";
         string email = patient.Email ?? "";
         string phone = patient.Phone ?? "";
-        string addr  = patient.Address ?? "";
+        string addr = patient.Address ?? "";
 
         Console.WriteLine($"{patientName,-20} | {doctorName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
+    private void RenderAddDoctor(UserRepository userRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Add Doctor");
+
+        Console.WriteLine("Registering a new doctor with the DOTNET Hospital Management System");
+        Console.WriteLine();
+
+        Console.Write("Full name: ");
+        string? fullName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            Console.WriteLine("Full name is required.");
+            return;
+        }
+
+        // If user forgot the Dr. prefix, add it for them
+        string finalName = fullName.Trim();
+        if (!finalName.StartsWith("Dr"))
+            finalName = "Dr. " + finalName;
+
+        Console.Write("Email: ");
+        string? email = Console.ReadLine();
+
+        Console.Write("Phone: ");
+        string? phone = Console.ReadLine();
+
+        Console.Write("Address: ");
+        string? address = Console.ReadLine();
+
+        Console.Write("Temporary password: ");
+        string? password = Console.ReadLine();
+        if (string.IsNullOrEmpty(password))
+            password = "password123"; // simple default
+
+        // Generate a unique ID
+        int newId = userRepository.GenerateNewId();
+
+        var doctor = new Doctor
+        {
+            Id = newId,
+            Password = password,
+            FullName = finalName,
+            Email = email ?? string.Empty,
+            Phone = phone ?? string.Empty,
+            Address = address ?? string.Empty
+        };
+
+        userRepository.AddDoctor(doctor);
+
+        Console.WriteLine();
+        Console.WriteLine($"Doctor {doctor.FullName} (ID {doctor.Id}) added to the system!");
+    }
 
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
@@ -217,7 +271,7 @@ public class Administrator : User
                     break;
 
                 case "5":
-                    Console.WriteLine("Add doctor selected. (Not implemented)");
+                    RenderAddDoctor(userRepository);
                     break;
 
                 case "6":

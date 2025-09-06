@@ -46,7 +46,7 @@ public class UserRepository
 
         return null; // no match found
     }
-    
+
     public List<User> GetAllPatients()
     {
         var result = new List<User>();
@@ -55,9 +55,46 @@ public class UserRepository
             if (u.Role == "PATIENT")
                 result.Add(u);
         }
+
         return result;
     }
 
+    // Generate a unique numeric ID that is not already used
+    public int GenerateNewId()
+    {
+        int id = 10000; // start somewhere sensible
+        while (true)
+        {
+            bool exists = false;
+            foreach (var u in users)
+            {
+                if (u.Id == id)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) return id;
+            id++;
+        }
+    }
+
+    // Add a new doctor: update memory and append to data file
+    public void AddDoctor(Doctor doctor)
+    {
+        // keep in-memory list current
+        users.Add(doctor);
+
+        // persist to the same file format your loader expects:
+        // DOCTOR|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
+        using (var fs = new FileStream(usersData, FileMode.Append, FileAccess.Write))
+        using (var writer = new StreamWriter(fs))
+        {
+            writer.WriteLine(
+                $"DOCTOR|-|{doctor.Id}|-|{doctor.Password}|-|{doctor.FullName}|-|{doctor.Email}|-|{doctor.Phone}|-|{doctor.Address}");
+        }
+    }
 
 
     private void LoadUsers()

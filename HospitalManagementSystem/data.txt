@@ -47,3 +47,5 @@ PATIENT|-|14141|-|mypass147|-|George Adams|-|g.adams@email.com|-|0412303021|-|65
 PATIENT|-|15151|-|health963|-|Amelia Evans|-|a.evans@email.com|-|0412303022|-|789 Miller Street, Cammeray, NSW
 PATIENT|-|16161|-|patient357|-|Jack Turner|-|j.turner@email.com|-|0412303023|-|852 Spit Road, Mosman, NSW
 PATIENT|-|17171|-|pass654|-|Lily Campbell|-|l.campbell@email.com|-|0412303024|-|951 Eastern Valley Way, Chatswood, NSW
+DOCTOR|-|10000|-|password415|-|Dr Avinash|-|avinash@dnhms.com|-|0415134105|-|45 Real Place, Sydney, NSW
+DOCTOR|-|10002|-|password415|-|Dr Avinash|-|DrAvin@gmail.com|-|0413134105|-|45 Real Place, Sydney, NSW

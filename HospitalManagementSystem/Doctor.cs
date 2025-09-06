@@ -6,7 +6,7 @@ public class Doctor : User
     {
         Role = "DOCTOR";
     }
-    
+
     public void RenderDoctorDetails()
     {
         Console.Clear();
@@ -25,7 +25,7 @@ public class Doctor : User
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
-    
+
     public void RenderPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -63,12 +63,12 @@ public class Doctor : User
             string dName = this.FullName ?? $"Doctor#{Id}";
             string email = patient.Email ?? "";
             string phone = patient.Phone ?? "";
-            string addr  = patient.Address ?? "";
+            string addr = patient.Address ?? "";
 
             Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
         }
     }
-    
+
     public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -105,7 +105,7 @@ public class Doctor : User
         }
     }
 
-    
+
     public void RenderCheckPatient(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -155,12 +155,13 @@ public class Doctor : User
         string dName = this.FullName ?? $"Doctor#{Id}";
         string email = patient.Email ?? "";
         string phone = patient.Phone ?? "";
-        string addr  = patient.Address ?? "";
+        string addr = patient.Address ?? "";
 
         Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
-    public void RenderAppointmentsWithPatient(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    public void RenderAppointmentsWithPatient(UserRepository userRepository,
+        AppointmentRepository appointmentRepository)
     {
         Console.Clear();
         Ui.RenderHeader("Appointments With");
