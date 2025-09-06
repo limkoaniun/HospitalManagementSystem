@@ -224,6 +224,54 @@ public class Administrator : User
         Console.WriteLine($"Doctor {doctor.FullName} (ID {doctor.Id}) added to the system!");
     }
 
+    private void RenderAddPatient(UserRepository userRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Add Patient");
+
+        Console.WriteLine("Registering a new patient with the DOTNET Hospital Management System");
+        Console.WriteLine();
+
+        Console.Write("Full name: ");
+        string? fullName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            Console.WriteLine("Full name is required.");
+            return;
+        }
+
+        Console.Write("Email: ");
+        string? email = Console.ReadLine();
+
+        Console.Write("Phone: ");
+        string? phone = Console.ReadLine();
+
+        Console.Write("Address: ");
+        string? address = Console.ReadLine();
+
+        Console.Write("Temporary password: ");
+        string? password = Console.ReadLine();
+        if (string.IsNullOrEmpty(password))
+            password = "patient123";
+
+        int newId = userRepository.GenerateNewId();
+
+        var patient = new Patient
+        {
+            Id = newId,
+            Password = password,
+            FullName = fullName.Trim(),
+            Email = email ?? string.Empty,
+            Phone = phone ?? string.Empty,
+            Address = address ?? string.Empty
+        };
+
+        userRepository.AddPatient(patient);
+
+        Console.WriteLine();
+        Console.WriteLine($"Patient {patient.FullName} (ID {patient.Id}) added to the system!");
+    }
+
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
@@ -275,7 +323,7 @@ public class Administrator : User
                     break;
 
                 case "6":
-                    Console.WriteLine("Add patient selected. (Not implemented)");
+                    RenderAddPatient(userRepository);
                     break;
 
                 case "7":

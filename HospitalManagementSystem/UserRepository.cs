@@ -96,6 +96,21 @@ public class UserRepository
         }
     }
 
+    public void AddPatient(Patient patient)
+    {
+        // keep in-memory list current
+        users.Add(patient);
+
+        // Persist in the same format your loader expects
+        // PATIENT|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
+        using (var fs = new FileStream(usersData, FileMode.Append, FileAccess.Write))
+        using (var writer = new StreamWriter(fs))
+        {
+            writer.WriteLine(
+                $"PATIENT|-|{patient.Id}|-|{patient.Password}|-|{patient.FullName}|-|{patient.Email}|-|{patient.Phone}|-|{patient.Address}");
+        }
+    }
+
 
     private void LoadUsers()
     {
