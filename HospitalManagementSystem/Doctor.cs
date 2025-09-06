@@ -25,6 +25,49 @@ public class Doctor : User
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
+    
+    public void RenderPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("My Patients");
+
+        // Find all appointments where this doctor is involved
+        var appts = appointmentRepository.GetAppointmentsByUserID(Id);
+
+        // Collect unique patient IDs
+        var patientIds = new HashSet<int>();
+        foreach (var a in appts)
+        {
+            if (a.DoctorID == Id) // be explicit that these are your patients
+                patientIds.Add(a.PatientID);
+        }
+
+        if (patientIds.Count == 0)
+        {
+            Console.WriteLine($"No patients are currently linked to {FullName}.");
+            return;
+        }
+
+        Console.WriteLine($"Patients assigned to {FullName}:");
+        Console.WriteLine();
+        Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 120));
+
+        // Print each patient on one line
+        foreach (var pid in patientIds)
+        {
+            var patient = userRepository.GetUserById(pid);
+            if (patient == null || patient.Role != "PATIENT") continue;
+
+            string pName = patient.FullName ?? $"Patient#{pid}";
+            string dName = this.FullName ?? $"Doctor#{Id}";
+            string email = patient.Email ?? "";
+            string phone = patient.Phone ?? "";
+            string addr  = patient.Address ?? "";
+
+            Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
+        }
+    }
 
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
@@ -60,7 +103,7 @@ public class Doctor : User
                     break;
 
                 case "2":
-                    Console.WriteLine("List patients selected.");
+                    RenderPatientsDetails(userRepository, appointmentRepository);
                     break;
 
                 case "3":
