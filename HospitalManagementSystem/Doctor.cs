@@ -105,6 +105,61 @@ public class Doctor : User
         }
     }
 
+    
+    public void RenderCheckPatient(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Check Patient Details");
+
+        Console.Write("Enter the ID of the patient to check: ");
+        string? input = Console.ReadLine();
+
+        if (!int.TryParse(input, out int patientId))
+        {
+            Console.WriteLine("Invalid ID format.");
+            return;
+        }
+
+        // Find the patient
+        var patient = userRepository.GetUserById(patientId);
+        if (patient == null || patient.Role != "PATIENT")
+        {
+            Console.WriteLine("No patient found with that ID.");
+            return;
+        }
+
+        // Verify this patient is linked to the current doctor (through appointments)
+        var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
+        bool isLinked = false;
+        foreach (var a in appts)
+        {
+            if (a.DoctorID == this.Id && a.PatientID == patientId)
+            {
+                isLinked = true;
+                break;
+            }
+        }
+
+        if (!isLinked)
+        {
+            Console.WriteLine("This patient is not assigned to you.");
+            return;
+        }
+
+        // Render details
+        Console.WriteLine();
+        Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 120));
+
+        string pName = patient.FullName ?? $"Patient#{patient.Id}";
+        string dName = this.FullName ?? $"Doctor#{Id}";
+        string email = patient.Email ?? "";
+        string phone = patient.Phone ?? "";
+        string addr  = patient.Address ?? "";
+
+        Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
+    }
+
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
@@ -147,7 +202,7 @@ public class Doctor : User
                     break;
 
                 case "4":
-                    Console.WriteLine("Check particular patient selected.");
+                    RenderCheckPatient(userRepository, appointmentRepository);
                     break;
 
                 case "5":
