@@ -15,6 +15,26 @@ public class UserRepository
         LoadUsers();
     }
 
+    public List<User> GetAllDoctors()
+    {
+        var result = new List<User>();
+        foreach (var u in users)
+        {
+            if (u.Role == "DOCTOR")
+                result.Add(u);
+        }
+
+        return result;
+    }
+
+    public User? GetDoctorById(int id)
+    {
+        var u = GetUserById(id);
+        if (u != null && u.Role == "DOCTOR") return u;
+        return null;
+    }
+
+
     public User? GetUserById(int id)
     {
         return users.FirstOrDefault(x => x.Id == id);

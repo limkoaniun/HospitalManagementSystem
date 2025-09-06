@@ -27,5 +27,26 @@ PATIENT|-|30303|-|patient789|-|Lucas Anderson|-|l.anderson@email.com|-|041230301
 PATIENT|-|40404|-|mypass321|-|Charlotte Harris|-|c.harris@email.com|-|0412303012|-|444 Miller Street, Cammeray, NSW
 PATIENT|-|50505|-|secure654|-|William Martinez|-|w.martinez@email.com|-|0412303013|-|555 Lane Cove Road, Macquarie Park, NSW
 PATIENT|-|60606|-|pass456|-|Sophia Robinson|-|s.robinson@email.com|-|0412303014|-|666 Pacific Highway, Chatswood, NSW
+DOCTOR|-|11223|-|heal999|-|Dr. Sophia Martinez|-|s.martinez@hospital.com|-|0412102007|-|45 George Street, Sydney, NSW
+DOCTOR|-|33445|-|doc246|-|Dr. William Johnson|-|w.johnson@hospital.com|-|0412102008|-|67 Pitt Street, Sydney, NSW
+DOCTOR|-|55667|-|med135|-|Dr. Olivia Taylor|-|o.taylor@hospital.com|-|0412102009|-|89 Market Street, Sydney, NSW
+DOCTOR|-|77889|-|life321|-|Dr. Benjamin Lee|-|b.lee@hospital.com|-|0412102010|-|21 Clarence Street, Sydney, NSW
+DOCTOR|-|99001|-|care789|-|Dr. Isabella White|-|i.white@hospital.com|-|0412102011|-|105 Crown Street, Darlinghurst, NSW
+DOCTOR|-|22334|-|well456|-|Dr. Ethan Harris|-|e.harris@hospital.com|-|0412102012|-|58 Bourke Street, Alexandria, NSW
+DOCTOR|-|44556|-|doc852|-|Dr. Mia Thompson|-|m.thompson@hospital.com|-|0412102013|-|33 Botany Road, Waterloo, NSW
+DOCTOR|-|66778|-|med963|-|Dr. Alexander Clark|-|a.clark@hospital.com|-|0412102014|-|120 Oxford Street, Bondi Junction, NSW
+DOCTOR|-|88990|-|health741|-|Dr. Amelia Lewis|-|a.lewis@hospital.com|-|0412102015|-|14 Military Road, Mosman, NSW
+DOCTOR|-|10112|-|doc159|-|Dr. Daniel Walker|-|d.walker@hospital.com|-|0412102016|-|75 Darling Street, Balmain, NSW
+PATIENT|-|70707|-|mypatient999|-|James Clark|-|j.clark@email.com|-|0412303015|-|777 Darling Street, Balmain, NSW
+PATIENT|-|80808|-|health852|-|Emily Lewis|-|e.lewis@email.com|-|0412303016|-|888 Victoria Road, Rozelle, NSW
+PATIENT|-|90909|-|pass741|-|Michael Young|-|m.young@email.com|-|0412303017|-|999 Norton Street, Leichhardt, NSW
+PATIENT|-|11111|-|safe123|-|Grace Hall|-|g.hall@email.com|-|0412303018|-|123 Walker Street, North Sydney, NSW
+PATIENT|-|12121|-|secure258|-|Henry King|-|h.king@email.com|-|0412303019|-|321 Miller Street, North Sydney, NSW
+PATIENT|-|13131|-|well369|-|Chloe Scott|-|c.scott@email.com|-|0412303020|-|456 Blues Point Road, McMahons Point, NSW
+PATIENT|-|14141|-|mypass147|-|George Adams|-|g.adams@email.com|-|0412303021|-|654 Willoughby Road, Crows Nest, NSW
+PATIENT|-|15151|-|health963|-|Amelia Evans|-|a.evans@email.com|-|0412303022|-|789 Miller Street, Cammeray, NSW
+PATIENT|-|16161|-|patient357|-|Jack Turner|-|j.turner@email.com|-|0412303023|-|852 Spit Road, Mosman, NSW
+PATIENT|-|17171|-|pass654|-|Lily Campbell|-|l.campbell@email.com|-|0412303024|-|951 Eastern Valley Way, Chatswood, NSW
+
 
 

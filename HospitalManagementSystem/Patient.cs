@@ -7,6 +7,143 @@ public class Patient : User
         Role = "PATIENT";
     }
 
+    public void RenderBookAppointment(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Book Appointment");
+
+        // gather linked doctors from past appointments
+        var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
+        var linkedDoctorIds = new HashSet<int>();
+        foreach (var appt in myAppointments) linkedDoctorIds.Add(appt.DoctorID);
+
+        // choose flow: Existing, New, or Cancel
+        char choice;
+        if (linkedDoctorIds.Count > 0)
+        {
+            Console.WriteLine("You have existing linked doctor(s).");
+            Console.WriteLine("[E] Book with existing doctor");
+            Console.WriteLine("[N] Book with a new doctor");
+            Console.WriteLine("[Q] Cancel");
+            Console.Write("Choose an option: ");
+            var raw = (Console.ReadLine() ?? "").Trim();
+            choice = string.IsNullOrEmpty(raw) ? 'Q' : char.ToUpperInvariant(raw[0]);
+        }
+        else
+        {
+            Console.WriteLine("You are not registered with any doctor.");
+            Console.WriteLine("[N] Book with a new doctor");
+            Console.WriteLine("[Q] Cancel");
+            Console.Write("Choose an option: ");
+            var raw = (Console.ReadLine() ?? "").Trim();
+            choice = string.IsNullOrEmpty(raw) ? 'Q' : char.ToUpperInvariant(raw[0]);
+            if (choice == 'E') choice = 'N'; // not allowed here
+        }
+
+        if (choice == 'Q') return;
+
+        int chosenDoctorId;
+
+        if (choice == 'E')
+        {
+            // list linked doctors
+            var linkedDoctors = new List<User>();
+            foreach (var id in linkedDoctorIds)
+            {
+                var d = userRepository.GetDoctorById(id);
+                if (d != null) linkedDoctors.Add(d);
+            }
+
+            if (linkedDoctors.Count == 0)
+            {
+                Console.WriteLine("No linked doctor records were found. Switching to new doctor selection.");
+                choice = 'N';
+            }
+            else
+            {
+                Console.WriteLine("Choose a doctor for this appointment:");
+                for (int i = 0; i < linkedDoctors.Count; i++)
+                {
+                    var d = linkedDoctors[i];
+                    Console.WriteLine($"{i + 1} {d.FullName} | {d.Email} | {d.Phone} | {d.Address}");
+                }
+
+                Console.Write("Please choose a doctor (number): ");
+                if (!int.TryParse(Console.ReadLine(), out var pick) || pick < 1 || pick > linkedDoctors.Count)
+                {
+                    Console.WriteLine("Invalid choice. Press any key to return...");
+                    Console.ReadKey(true);
+                    return;
+                }
+
+                chosenDoctorId = linkedDoctors[pick - 1].Id;
+
+                Console.Write("Description of the appointment: ");
+                var desc = (Console.ReadLine() ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(desc))
+                {
+                    Console.WriteLine("Description cannot be empty. Press any key to return...");
+                    Console.ReadKey(true);
+                    return;
+                }
+
+                appointmentRepository.AddAppointment(Id, chosenDoctorId, desc);
+                Console.WriteLine("Press any key to return to menu...");
+                Console.ReadKey(true);
+                return;
+            }
+        }
+
+        if (choice == 'N')
+        {
+            // list all doctors to register and book
+            var allDoctors = userRepository.GetAllDoctors();
+            if (allDoctors.Count == 0)
+            {
+                Console.WriteLine("No doctors found in the system. Press any key to return...");
+                Console.ReadKey(true);
+                return;
+            }
+
+            Console.WriteLine("Choose a doctor to book with:");
+            for (int i = 0; i < allDoctors.Count; i++)
+            {
+                var d = allDoctors[i];
+                Console.WriteLine($"{i + 1} {d.FullName} | {d.Email} | {d.Phone} | {d.Address}");
+            }
+
+            Console.Write("Please choose a doctor (number): ");
+            if (!int.TryParse(Console.ReadLine(), out var pick) || pick < 1 || pick > allDoctors.Count)
+            {
+                Console.WriteLine("Invalid choice. Press any key to return...");
+                Console.ReadKey(true);
+                return;
+            }
+
+            chosenDoctorId = allDoctors[pick - 1].Id;
+            Console.WriteLine($"You are booking a new appointment with {allDoctors[pick - 1].FullName}");
+
+            Console.Write("Description of the appointment: ");
+            var desc = (Console.ReadLine() ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(desc))
+            {
+                Console.WriteLine("Description cannot be empty. Press any key to return...");
+                Console.ReadKey(true);
+                return;
+            }
+
+            appointmentRepository.AddAppointment(Id, chosenDoctorId, desc);
+            Console.WriteLine("Press any key to return to menu...");
+            Console.ReadKey(true);
+            return;
+        }
+
+        // fallback
+        Console.WriteLine("Invalid option. Press any key to return...");
+        Console.ReadKey(true);
+    }
+
+
     public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -94,7 +231,6 @@ public class Patient : User
         }
     }
 
-
     public void RenderPatientDetails()
     {
         Console.Clear();
@@ -147,7 +283,7 @@ public class Patient : User
                     RenderAppointments(userRepository, appointmentRepository);
                     break;
                 case "4":
-                    Console.WriteLine("Book appointment selected.");
+                    RenderBookAppointment(userRepository, appointmentRepository);
                     break;
                 case "5":
                     Console.WriteLine("Returning to login...");
