@@ -34,6 +34,45 @@ public class Administrator : User
             Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
         }
     }
+    
+    private void RenderDoctorDetailsWithId(UserRepository userRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Doctor Details");
+
+        Console.Write("Please enter the ID of the doctor whose details you are checking (or press n to return): ");
+        string? input = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(input) || input.Trim().ToLower() == "n")
+            return;
+
+        if (!int.TryParse(input, out int docId))
+        {
+            Console.WriteLine("Invalid ID format.");
+            return;
+        }
+
+        var doctor = userRepository.GetUserById(docId);
+
+        if (doctor == null || doctor.Role != "DOCTOR")
+        {
+            Console.WriteLine("No doctor found with that ID.");
+            return;
+        }
+
+        Console.WriteLine($"Details for {doctor.FullName}");
+        Console.WriteLine();
+        Console.WriteLine($"{"Name",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 90));
+
+        string name = doctor.FullName ?? $"Doctor#{doctor.Id}";
+        string email = doctor.Email ?? "";
+        string phone = doctor.Phone ?? "";
+        string address = doctor.Address ?? "";
+
+        Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
+    }
+
 
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
@@ -70,16 +109,7 @@ public class Administrator : User
                     break;
 
                 case "2":
-                    Console.Write("Enter Doctor ID: ");
-                    if (int.TryParse(Console.ReadLine(), out int docId))
-                    {
-                        var doctor = userRepository.GetUserById(docId);
-                        if (doctor != null && doctor.Role == "DOCTOR")
-                            doctor.DisplayDetails();
-                        else
-                            Console.WriteLine("Doctor not found.");
-                    }
-
+                    RenderDoctorDetailsWithId(userRepository);
                     break;
 
                 case "3":
