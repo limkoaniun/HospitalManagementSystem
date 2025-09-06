@@ -111,6 +111,17 @@ public class UserRepository
         }
     }
 
+    public User? GetUserByCredentials(int id, string? password)
+    {
+        foreach (var u in users)
+        {
+            if (u.Id == id && u.Password == password)
+                return u;
+        }
+
+        return null;
+    }
+
 
     private void LoadUsers()
     {

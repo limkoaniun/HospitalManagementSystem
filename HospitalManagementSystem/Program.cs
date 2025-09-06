@@ -21,17 +21,19 @@ namespace HospitalManagementSystem
             Console.Write("ID: ");
             string? idText = Console.ReadLine();
             int idInput;
+
             try
             {
                 idInput = Convert.ToInt32(idText);
             }
             catch
             {
+                Console.WriteLine("Invalid ID format.");
                 return null;
             }
 
             Console.Write("Password: ");
-            string? password = Console.ReadLine();
+            string? password = Ui.ReadPasswordMasked();
 
             var currentUser = userRepository.GetUserById(idInput);
             if (currentUser == null || currentUser.Password != password)
@@ -41,6 +43,7 @@ namespace HospitalManagementSystem
 
             return currentUser;
         }
+
 
         private void Run()
         {

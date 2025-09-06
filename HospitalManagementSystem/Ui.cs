@@ -16,4 +16,34 @@ public static class Ui
         Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
         Console.WriteLine();
     }
+
+    public static string ReadPasswordMasked()
+    {
+        var pwd = new System.Text.StringBuilder();
+        while (true)
+        {
+            var key = Console.ReadKey(intercept: true);
+
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Console.WriteLine(); // move to next line
+                break;
+            }
+            else if (key.Key == ConsoleKey.Backspace)
+            {
+                if (pwd.Length > 0)
+                {
+                    pwd.Remove(pwd.Length - 1, 1);
+                    Console.Write("\b \b");
+                }
+            }
+            else if (!char.IsControl(key.KeyChar))
+            {
+                pwd.Append(key.KeyChar);
+                Console.Write("*");
+            }
+        }
+
+        return pwd.ToString();
+    }
 }
