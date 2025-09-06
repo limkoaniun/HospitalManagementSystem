@@ -36,8 +36,17 @@ public class UserRepository
 
     public User? GetUserById(int id)
     {
-        return users.FirstOrDefault(x => x.Id == id);
+        foreach (var user in users)
+        {
+            if (user.Id == id)
+            {
+                return user;
+            }
+        }
+
+        return null; // no match found
     }
+
 
     private void LoadUsers()
     {

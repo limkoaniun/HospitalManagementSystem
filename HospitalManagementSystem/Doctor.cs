@@ -160,6 +160,51 @@ public class Doctor : User
         Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
+    public void RenderAppointmentsWithPatient(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Appointments With");
+
+        Console.Write("Enter the ID of the patient you would like to view appointments for: ");
+        var input = Console.ReadLine();
+        if (!int.TryParse(input, out int patientId))
+        {
+            Console.WriteLine("Invalid ID format.");
+            return;
+        }
+
+        var patient = userRepository.GetUserById(patientId);
+        if (patient == null || patient.Role != "PATIENT")
+        {
+            Console.WriteLine("No patient found with that ID.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine($"{"Doctor",-20} | {"Patient",-20} | Description");
+        Console.WriteLine(new string('-', 70));
+
+        var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
+
+        bool any = false;
+        foreach (var a in appts)
+        {
+            if (a.DoctorID != this.Id || a.PatientID != patientId) continue;
+
+            any = true;
+            string doctorName = this.FullName ?? $"Doctor#{this.Id}";
+            string patientName = patient.FullName ?? $"Patient#{patientId}";
+            string desc = a.SymptomsDescription ?? "";
+
+            Console.WriteLine($"{doctorName,-20} | {patientName,-20} | {desc}");
+        }
+
+        if (!any)
+        {
+            Console.WriteLine("No appointments found with that patient.");
+        }
+    }
+
 
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
@@ -206,7 +251,7 @@ public class Doctor : User
                     break;
 
                 case "5":
-                    Console.WriteLine("List appointments with patient selected.");
+                    RenderAppointmentsWithPatient(userRepository, appointmentRepository);
                     break;
 
                 case "6":
