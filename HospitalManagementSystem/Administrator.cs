@@ -13,15 +13,10 @@ public class Administrator : User
         {
             Console.Clear();
 
-            string welcome = $"Welcome to DOTNET Hospital Management System {FullName}";
+            string welcome = $"Welcome to DOTNET Hospital Management System, {FullName}";
 
             // Header box
-            Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-            Console.WriteLine("│              DOTNET Hospital Management System              │");
-            Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-            Console.WriteLine("│                       Administrator Menu                    │");
-            Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-            Console.WriteLine();
+            Ui.RenderHeader("Administrator Menu");
 
             Console.WriteLine(welcome);
             Console.WriteLine();
@@ -62,6 +57,7 @@ public class Administrator : User
                         else
                             Console.WriteLine("Doctor not found.");
                     }
+
                     break;
 
                 case "3":
@@ -85,6 +81,7 @@ public class Administrator : User
                         else
                             Console.WriteLine("Patient not found.");
                     }
+
                     break;
 
                 case "5":

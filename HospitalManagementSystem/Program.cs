@@ -18,12 +18,7 @@ namespace HospitalManagementSystem
             Console.Clear();
 
             // Header box
-            Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-            Console.WriteLine("│              DOTNET Hospital Management System              │");
-            Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-            Console.WriteLine("│                          Login                              │");
-            Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-            Console.WriteLine();
+            Ui.RenderHeader("Login");
 
             Console.Write("ID: ");
             string? idText = Console.ReadLine();

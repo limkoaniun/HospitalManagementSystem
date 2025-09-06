@@ -10,13 +10,7 @@ public class Patient : User
     public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
-
-        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-        Console.WriteLine("│              DOTNET Hospital Management System              │");
-        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-        Console.WriteLine("│                       My Appointments                       │");
-        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-        Console.WriteLine();
+        Ui.RenderHeader("My Appointments");
 
         Console.WriteLine($"Appointments for {FullName}");
         Console.WriteLine();
@@ -48,13 +42,7 @@ public class Patient : User
     public void RenderDoctorsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
-
-        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-        Console.WriteLine("│              DOTNET Hospital Management System              │");
-        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-        Console.WriteLine("│                          My Doctor                          │");
-        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-        Console.WriteLine();
+        Ui.RenderHeader("My Doctor");
 
         Console.WriteLine("Your doctor:");
         Console.WriteLine();
@@ -110,13 +98,8 @@ public class Patient : User
     public void RenderPatientDetails()
     {
         Console.Clear();
+        Ui.RenderHeader("My Details");
 
-        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-        Console.WriteLine("│              DOTNET Hospital Management System              │");
-        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-        Console.WriteLine("│                          My Details                         │");
-        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-        Console.WriteLine();
 
         Console.WriteLine("{0}'s Details", FullName);
         Console.WriteLine();
@@ -136,12 +119,7 @@ public class Patient : User
             string welcome = $"Welcome to DOTNET Hospital Management System, {FullName}";
 
             // Header box
-            Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-            Console.WriteLine("│              DOTNET Hospital Management System              │");
-            Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-            Console.WriteLine("│                          Patient Menu                       │");
-            Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-            Console.WriteLine();
+            Ui.RenderHeader("Patient Menu");
 
             Console.WriteLine(welcome);
             Console.WriteLine();

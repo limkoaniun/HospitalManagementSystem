@@ -13,15 +13,10 @@ public class Doctor : User
         {
             Console.Clear();
 
-            string welcome = $"Welcome to DOTNET Hospital Management System {FullName}";
+            string welcome = $"Welcome to DOTNET Hospital Management System, {FullName}";
 
             // Header box
-            Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
-            Console.WriteLine("│              DOTNET Hospital Management System              │");
-            Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
-            Console.WriteLine("│                          Doctor Menu                        │");
-            Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
-            Console.WriteLine();
+            Ui.RenderHeader("Doctor Menu");
 
             Console.WriteLine(welcome);
             Console.WriteLine();
