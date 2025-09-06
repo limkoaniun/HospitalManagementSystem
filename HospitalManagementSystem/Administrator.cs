@@ -118,6 +118,56 @@ public class Administrator : User
         }
     }
 
+    private void RenderPatientDetailsWithId(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+        Ui.RenderHeader("Patient Details");
+
+        Console.Write("Please enter the ID of the patient whose details you are checking (or press n to return): ");
+        string? input = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(input) || input.Trim().ToLower() == "n")
+            return;
+
+        if (!int.TryParse(input, out int patientId))
+        {
+            Console.WriteLine("Invalid ID format.");
+            return;
+        }
+
+        var patient = userRepository.GetUserById(patientId);
+        if (patient == null || patient.Role != "PATIENT")
+        {
+            Console.WriteLine("No patient found with that ID.");
+            return;
+        }
+
+        // find a linked doctor through appointments, if any
+        int? doctorId = null;
+        var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
+        foreach (var a in appts)
+        {
+            if (a.PatientID == patientId)
+            {
+                doctorId = a.DoctorID;
+                break;
+            }
+        }
+        var doctor = doctorId.HasValue ? userRepository.GetUserById(doctorId.Value) : null;
+
+        Console.WriteLine($"Details for {patient.FullName}");
+        Console.WriteLine();
+        Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 120));
+
+        string patientName = patient.FullName ?? $"Patient#{patient.Id}";
+        string doctorName  = (doctor != null && doctor.Role == "DOCTOR") ? doctor.FullName : "Unassigned";
+        string email = patient.Email ?? "";
+        string phone = patient.Phone ?? "";
+        string addr  = patient.Address ?? "";
+
+        Console.WriteLine($"{patientName,-20} | {doctorName,-20} | {email,-25} | {phone,-12} | {addr}");
+    }
 
 
 
@@ -163,16 +213,7 @@ public class Administrator : User
                     break;
 
                 case "4":
-                    Console.Write("Enter Patient ID: ");
-                    if (int.TryParse(Console.ReadLine(), out int patId))
-                    {
-                        var patient = userRepository.GetUserById(patId);
-                        if (patient != null && patient.Role == "PATIENT")
-                            patient.DisplayDetails();
-                        else
-                            Console.WriteLine("Patient not found.");
-                    }
-
+                    RenderPatientDetailsWithId(userRepository, appointmentRepository);
                     break;
 
                 case "5":
