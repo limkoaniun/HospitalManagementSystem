@@ -16,7 +16,7 @@ namespace HospitalManagementSystem
             appointments = new List<Appointment>();
             LoadAppointments();
         }
-
+    
         public List<Appointment> GetAppointmentsByUserID(int id)
         {
             List<Appointment> result = new List<Appointment>();

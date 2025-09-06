@@ -6,19 +6,107 @@ public class Patient : User
     {
         Role = "PATIENT";
     }
-    
-    public void ShowAppointments(AppointmentRepository appointmentRepository)
+
+    public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
+        Console.Clear();
+
+        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
+        Console.WriteLine("│              DOTNET Hospital Management System              │");
+        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
+        Console.WriteLine("│                       My Appointments                       │");
+        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
+        Console.WriteLine();
+
+        Console.WriteLine($"Appointments for {FullName}");
+        Console.WriteLine();
+
+        // Table header
+        Console.WriteLine($"{"Doctor",-20} | {"Patient",-20} | Description");
+        Console.WriteLine(new string('-', 70));
+
         var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
-        Console.WriteLine("My Appointments:");
+
+        if (myAppointments.Count == 0)
+        {
+            Console.WriteLine("No appointments found.");
+            return;
+        }
+
         foreach (var appt in myAppointments)
         {
-            Console.WriteLine("PatientID: {0}, DoctorID: {1}, Symptoms: {2}",
-                appt.PatientID, appt.DoctorID, appt.SymptomsDescription);
-            Console.WriteLine("----------------------------------------");
+            var doctor = userRepository.GetUserById(appt.DoctorID);
+            var patient = userRepository.GetUserById(appt.PatientID);
+
+            string doctorName = doctor?.FullName ?? $"Doctor#{appt.DoctorID}";
+            string patientName = patient?.FullName ?? $"Patient#{appt.PatientID}";
+
+            Console.WriteLine($"{doctorName,-20} | {patientName,-20} | {appt.SymptomsDescription}");
         }
     }
-    
+
+    public void RenderDoctorsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
+    {
+        Console.Clear();
+
+        Console.WriteLine("┌─────────────────────────────────────────────────────────────┐");
+        Console.WriteLine("│              DOTNET Hospital Management System              │");
+        Console.WriteLine("├─────────────────────────────────────────────────────────────┤");
+        Console.WriteLine("│                          My Doctor                          │");
+        Console.WriteLine("└─────────────────────────────────────────────────────────────┘");
+        Console.WriteLine();
+
+        Console.WriteLine("Your doctor:");
+        Console.WriteLine();
+
+        // Get all my appointments
+        var myAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
+        if (myAppointments.Count == 0)
+        {
+            Console.WriteLine("No appointments found, so no linked doctor to display.");
+            return;
+        }
+
+        // Collect unique doctor IDs from my appointments
+        var uniqueDoctorIds = new HashSet<int>();
+        foreach (var appt in myAppointments)
+        {
+            uniqueDoctorIds.Add(appt.DoctorID);
+        }
+
+        // Look up doctor users
+        var doctors = new List<User>();
+        foreach (var docId in uniqueDoctorIds)
+        {
+            var user = userRepository.GetUserById(docId);
+            if (user != null && user.Role == "DOCTOR")
+            {
+                doctors.Add(user);
+            }
+        }
+
+        if (doctors.Count == 0)
+        {
+            Console.WriteLine("No doctor records found for your appointments.");
+            return;
+        }
+
+        // Table header
+        Console.WriteLine($"{"Name",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
+        Console.WriteLine(new string('-', 90));
+
+        // Rows
+        foreach (var doc in doctors)
+        {
+            string name = doc.FullName ?? $"Doctor#{doc.Id}";
+            string email = doc.Email ?? "";
+            string phone = doc.Phone ?? "";
+            string address = doc.Address ?? "";
+            Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
+        }
+    }
+
+
     public void RenderPatientDetails()
     {
         Console.Clear();
@@ -75,10 +163,10 @@ public class Patient : User
                     RenderPatientDetails();
                     break;
                 case "2":
-                    Console.WriteLine("List my doctor details selected.");
+                    RenderDoctorsDetails(userRepository, appointmentRepository);
                     break;
                 case "3":
-                    ShowAppointments(appointmentRepository);
+                    RenderAppointments(userRepository, appointmentRepository);
                     break;
                 case "4":
                     Console.WriteLine("Book appointment selected.");
