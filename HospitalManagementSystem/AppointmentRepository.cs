@@ -17,23 +17,28 @@ namespace HospitalManagementSystem
             LoadAppointments();
         }
 
+        // method overloading
+        public void AddAppointment(Appointment appointment)
+        {
+            // 1 append in memory
+            appointments.Add(appointment);
+            
+            // 2 append to file
+            using (var sw = new StreamWriter(appointmentData, append: true))
+            {
+                sw.WriteLine(appointment);
+            }
+            Console.WriteLine("The appointment has been booked successfully");
+        }
+
         public void AddAppointment(int patientId, int doctorId, string description)
         {
-            // 1) append in memory
-            appointments.Add(new Appointment
+            AddAppointment(new Appointment
             {
                 PatientID = patientId,
                 DoctorID = doctorId,
                 SymptomsDescription = description
             });
-
-            // 2) append to file
-            using (var sw = new StreamWriter(appointmentData, append: true))
-            {
-                sw.WriteLine($"{patientId}|-|{doctorId}|-|{description}");
-            }
-
-            Console.WriteLine("The appointment has been booked successfully");
         }
 
 

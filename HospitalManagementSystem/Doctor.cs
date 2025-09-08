@@ -130,20 +130,14 @@ public class Doctor : User
 
         // Verify this patient is linked to the current doctor (through appointments)
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
-        bool isLinked = false;
+        string linkedDoctorName = "";
         foreach (var a in appts)
         {
             if (a.DoctorID == this.Id && a.PatientID == patientId)
             {
-                isLinked = true;
+                linkedDoctorName = userRepository.GetUserById(a.DoctorID).FullName;
                 break;
             }
-        }
-
-        if (!isLinked)
-        {
-            Console.WriteLine("This patient is not assigned to you.");
-            return;
         }
 
         // Render details
@@ -152,12 +146,11 @@ public class Doctor : User
         Console.WriteLine(new string('-', 120));
 
         string pName = patient.FullName ?? $"Patient#{patient.Id}";
-        string dName = this.FullName ?? $"Doctor#{Id}";
         string email = patient.Email ?? "";
         string phone = patient.Phone ?? "";
         string addr = patient.Address ?? "";
 
-        Console.WriteLine($"{pName,-20} | {dName,-20} | {email,-25} | {phone,-12} | {addr}");
+        Console.WriteLine($"{pName,-20} | {linkedDoctorName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
     public void RenderAppointmentsWithPatient(UserRepository userRepository,

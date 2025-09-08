@@ -109,7 +109,7 @@ public class Administrator : User
             string patientName = patient.FullName ?? $"Patient#{patient.Id}";
             string doctorName = (doctor != null && doctor.Role == "DOCTOR")
                 ? doctor.FullName
-                : "Unassigned";
+                : " ";
             string email = patient.Email ?? "";
             string phone = patient.Phone ?? "";
             string addr = patient.Address ?? "";
