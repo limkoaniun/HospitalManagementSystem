@@ -33,7 +33,8 @@ namespace HospitalManagementSystem
             }
 
             Console.Write("Password: ");
-            string? password = Ui.ReadPasswordMasked();
+            // extension method
+            string? password = this.ReadPasswordMasked();
 
             var currentUser = userRepository.GetUserById(idInput);
             if (currentUser == null || currentUser.Password != password)

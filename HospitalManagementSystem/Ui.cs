@@ -1,6 +1,6 @@
 namespace HospitalManagementSystem;
 
-public static class Ui
+internal static class Ui
 {
     public static void RenderHeader(string title)
     {
@@ -17,7 +17,8 @@ public static class Ui
         Console.WriteLine();
     }
 
-    public static string ReadPasswordMasked()
+    // extension method for Program class
+    public static string ReadPasswordMasked(this Program program)
     {
         var pwd = new System.Text.StringBuilder();
         while (true)
