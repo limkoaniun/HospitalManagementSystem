@@ -128,15 +128,18 @@ public class Doctor : User
             return;
         }
 
-        // Verify this patient is linked to the current doctor (through appointments)
+        string assignedDoctorName = "Unassigned Doctor";
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
-        string linkedDoctorName = "";
         foreach (var a in appts)
         {
-            if (a.DoctorID == this.Id && a.PatientID == patientId)
+            if (a.PatientID == patientId)
             {
-                linkedDoctorName = userRepository.GetUserById(a.DoctorID).FullName;
-                break;
+                var d = userRepository.GetUserById(a.DoctorID);
+                if (d != null && d.Role == "DOCTOR")
+                {
+                    assignedDoctorName = d.FullName ?? $"Doctor#{a.DoctorID}";
+                }
+                break; // first matching doctor is enough
             }
         }
 
@@ -150,7 +153,7 @@ public class Doctor : User
         string phone = patient.Phone ?? "";
         string addr = patient.Address ?? "";
 
-        Console.WriteLine($"{pName,-20} | {linkedDoctorName,-20} | {email,-25} | {phone,-12} | {addr}");
+        Console.WriteLine($"{pName,-20} | {assignedDoctorName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
     public void RenderAppointmentsWithPatient(UserRepository userRepository,

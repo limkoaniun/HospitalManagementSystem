@@ -62,7 +62,8 @@ public class UserRepository
     // Generate a unique numeric ID that is not already used
     public int GenerateNewId()
     {
-        int id = 10000; // start somewhere sensible
+        // id start at 
+        int id = 10000; 
         while (true)
         {
             bool exists = false;
