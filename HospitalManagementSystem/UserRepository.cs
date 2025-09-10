@@ -27,13 +27,6 @@ public class UserRepository
         return result;
     }
 
-    public User? GetDoctorById(int id)
-    {
-        var u = GetUserById(id);
-        if (u != null && u.Role == "DOCTOR") return u;
-        return null;
-    }
-
     public User? GetUserById(int id)
     {
         foreach (var user in users)
@@ -111,19 +104,7 @@ public class UserRepository
                 $"PATIENT|-|{patient.Id}|-|{patient.Password}|-|{patient.FullName}|-|{patient.Email}|-|{patient.Phone}|-|{patient.Address}");
         }
     }
-
-    public User? GetUserByCredentials(int id, string? password)
-    {
-        foreach (var u in users)
-        {
-            if (u.Id == id && u.Password == password)
-                return u;
-        }
-
-        return null;
-    }
-
-
+    
     private void LoadUsers()
     {
         if (!File.Exists(usersData))

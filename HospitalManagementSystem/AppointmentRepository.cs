@@ -42,7 +42,6 @@ namespace HospitalManagementSystem
             });
         }
 
-
         public List<Appointment> GetAppointmentsByUserID(int id)
         {
             List<Appointment> result = new List<Appointment>();
