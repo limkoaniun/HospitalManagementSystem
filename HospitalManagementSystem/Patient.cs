@@ -8,45 +8,46 @@ public class Patient : User
     {
         Role = "PATIENT";
     }
-
+    
     public void RenderBookAppointment(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
         Ui.RenderHeader("Book Appointment");
 
-        var appointments = appointmentRepository.GetAppointmentsByUserID(Id);
-        User theDoctor = null;
-        var allDoctors = userRepository.GetAllDoctors();
-        int docIdx = 1;
-        if (appointments.Count == 0)
+        var existingAppointments = appointmentRepository.GetAppointmentsByUserID(Id);
+        User selectedDoctor = null;
+        var availableDoctors = userRepository.GetAllDoctors();
+        int doctorIndex = 1;
+
+        if (existingAppointments.Count == 0)
         {
             Console.WriteLine(
                 "You are not registered with any doctor! Please choose which doctor you would like to register with");
 
-            // render doctor list
-            foreach (var doc in allDoctors)
+            // Render doctor list
+            foreach (var doctor in availableDoctors)
             {
-                Console.WriteLine($"{docIdx} {doc.FullName} | {doc.Email} | {doc.Phone} | {doc.Address}");
-                docIdx++;
+                Console.WriteLine($"{doctorIndex} {doctor.FullName} | {doctor.Email} | {doctor.Phone} | {doctor.Address}");
+                doctorIndex++;
             }
 
             // Choose a doctor
             Console.WriteLine();
             Console.Write("Please choose a doctor (idx): ");
-            var doctorIdx = Console.ReadLine();
+            var chosenDoctorIndex = Console.ReadLine();
             Console.Write("Description of symptoms: ");
             string symptomDescription = Console.ReadLine();
-            var doctorId = allDoctors[Convert.ToInt32(doctorIdx) - 1].Id;
-            appointmentRepository.AddAppointment(this.Id, Convert.ToInt32(doctorId), symptomDescription);
+            var chosenDoctorId = availableDoctors[Convert.ToInt32(chosenDoctorIndex) - 1].Id;
+            appointmentRepository.AddAppointment(this.Id, chosenDoctorId, symptomDescription);
         }
         else
         {
-            var doctorId = appointments[0].DoctorID;
-            theDoctor = userRepository.GetUserById(doctorId);
-            Console.WriteLine($"You are booking a new appointment with {theDoctor.FullName}.");
+            var linkedDoctorId = existingAppointments[0].DoctorID;
+            selectedDoctor = userRepository.GetUserById(linkedDoctorId);
+            Console.WriteLine($"You are booking a new appointment with {selectedDoctor.FullName}.");
             Console.Write("Description of symptoms: ");
             string symptomDescription = Console.ReadLine();
-            appointmentRepository.AddAppointment(this.Id, theDoctor.Id, symptomDescription);
+            appointmentRepository.AddAppointment(this.Id, selectedDoctor.Id, symptomDescription);
         }
 
         Console.ReadKey(true);
