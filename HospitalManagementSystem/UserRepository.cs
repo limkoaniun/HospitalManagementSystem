@@ -63,7 +63,7 @@ public class UserRepository
     public int GenerateNewId()
     {
         // id start at 
-        int id = 10000; 
+        int id = 10000;
         while (true)
         {
             bool exists = false;

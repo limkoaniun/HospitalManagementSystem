@@ -22,12 +22,13 @@ namespace HospitalManagementSystem
         {
             // 1 append in memory
             appointments.Add(appointment);
-            
+
             // 2 append to file
             using (var sw = new StreamWriter(appointmentData, append: true))
             {
                 sw.WriteLine(appointment);
             }
+
             Console.WriteLine("The appointment has been booked successfully");
         }
 

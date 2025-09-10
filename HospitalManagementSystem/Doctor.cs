@@ -139,6 +139,7 @@ public class Doctor : User
                 {
                     assignedDoctorName = d.FullName ?? $"Doctor#{a.DoctorID}";
                 }
+
                 break; // first matching doctor is enough
             }
         }
