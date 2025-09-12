@@ -114,13 +114,17 @@ public class Doctor : User
         Console.Write("Enter the ID of the patient to check: ");
         string? input = Console.ReadLine();
 
-        if (!int.TryParse(input, out int patientId))
+        int patientId;
+        try
+        {
+            patientId = Convert.ToInt32(input);
+        }
+        catch
         {
             Console.WriteLine("Invalid ID format.");
             return;
         }
 
-        // Find the patient
         var patient = userRepository.GetUserById(patientId);
         if (patient == null || patient.Role != "PATIENT")
         {
@@ -128,7 +132,7 @@ public class Doctor : User
             return;
         }
 
-        string assignedDoctorName = "Unassigned Doctor";
+        string assignedDoctorName = "Unassigned";
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
         foreach (var a in appts)
         {
@@ -136,15 +140,11 @@ public class Doctor : User
             {
                 var d = userRepository.GetUserById(a.DoctorID);
                 if (d != null && d.Role == "DOCTOR")
-                {
                     assignedDoctorName = d.FullName ?? $"Doctor#{a.DoctorID}";
-                }
-
-                break; // first matching doctor is enough
+                break; // first match is enough
             }
         }
 
-        // Render details
         Console.WriteLine();
         Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
         Console.WriteLine(new string('-', 120));
@@ -164,8 +164,14 @@ public class Doctor : User
         Ui.RenderHeader("Appointments With");
 
         Console.Write("Enter the ID of the patient you would like to view appointments for: ");
-        var input = Console.ReadLine();
-        if (!int.TryParse(input, out int patientId))
+        string? input = Console.ReadLine();
+
+        int patientId;
+        try
+        {
+            patientId = Convert.ToInt32(input);
+        }
+        catch
         {
             Console.WriteLine("Invalid ID format.");
             return;
