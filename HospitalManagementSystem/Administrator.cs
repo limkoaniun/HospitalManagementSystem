@@ -46,7 +46,12 @@ public class Administrator : User
         if (string.IsNullOrWhiteSpace(input) || input.Trim().ToLower() == "n")
             return;
 
-        if (!int.TryParse(input, out int docId))
+        int docId;
+        try
+        {
+            docId = Convert.ToInt32(input);
+        }
+        catch
         {
             Console.WriteLine("Invalid ID format.");
             return;
@@ -129,7 +134,12 @@ public class Administrator : User
         if (string.IsNullOrWhiteSpace(input) || input.Trim().ToLower() == "n")
             return;
 
-        if (!int.TryParse(input, out int patientId))
+        int patientId;
+        try
+        {
+            patientId = Convert.ToInt32(input);
+        }
+        catch
         {
             Console.WriteLine("Invalid ID format.");
             return;

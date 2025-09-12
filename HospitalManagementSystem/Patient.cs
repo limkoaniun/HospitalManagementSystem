@@ -8,7 +8,7 @@ public class Patient : User
     {
         Role = "PATIENT";
     }
-    
+
     public void RenderBookAppointment(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -27,7 +27,8 @@ public class Patient : User
             // Render doctor list
             foreach (var doctor in availableDoctors)
             {
-                Console.WriteLine($"{doctorIndex} {doctor.FullName} | {doctor.Email} | {doctor.Phone} | {doctor.Address}");
+                Console.WriteLine(
+                    $"{doctorIndex} {doctor.FullName} | {doctor.Email} | {doctor.Phone} | {doctor.Address}");
                 doctorIndex++;
             }
 

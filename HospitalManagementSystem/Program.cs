@@ -63,12 +63,12 @@ namespace HospitalManagementSystem
                 // -------- Run the role-specific menu (as in Doctor/Admin/Patient menu) ------------
                 currentUser.Run(userRepository, appointmentRepository);
                 // ----------------------------------------------------------------------------------
-                
+
                 // -------- Garbage collection : after a session ends -------
-                currentUser = null;               // drop strong reference
-                GC.Collect();                      // force collection
-                GC.WaitForPendingFinalizers();     // wait for finalizers (demo)
-                GC.Collect();                      // collect finalizable survivors
+                currentUser = null; // drop strong reference
+                GC.Collect(); // force collection
+                GC.WaitForPendingFinalizers(); // wait for finalizers (demo)
+                GC.Collect(); // collect finalizable survivors
                 // ----------------------------------------------------------
             }
         }

@@ -2,7 +2,7 @@ namespace HospitalManagementSystem;
 
 using System.IO;
 
-public class UserRepository
+public class UserRepository : IRepository<User>
 {
     private readonly List<User> users;
 
@@ -15,6 +15,52 @@ public class UserRepository
         LoadUsers();
     }
 
+    // IRepository<User> implementation
+    public User? GetById(int id)
+    {
+        // delegate to your existing method
+        return GetUserById(id);
+    }
+
+    public List<User> GetAll()
+    {
+        return users;
+    }
+
+    public void Add(User entity)
+    {
+        // Route to the correct concrete adder to keep file format consistent
+        if (entity is Doctor d)
+        {
+            AddDoctor(d);
+        }
+        else if (entity is Patient p)
+        {
+            AddPatient(p);
+        }
+        else if (entity is Administrator a)
+        {
+            AddAdministrator(a);
+        }
+        else
+        {
+            // Fallback: treat as base User without a role-specific keyword
+            users.Add(entity);
+            AppendUserLine(entity);
+        }
+    }
+
+    public void Remove(User entity)
+    {
+        // Remove from memory
+        users.Remove(entity);
+
+        // Persist by rewriting the entire file to keep it consistent
+        SaveAllUsers();
+    }
+
+    // Existing convenience methods you already use elsewhere
+
     public List<User> GetAllDoctors()
     {
         var result = new List<User>();
@@ -25,19 +71,6 @@ public class UserRepository
         }
 
         return result;
-    }
-
-    public User? GetUserById(int id)
-    {
-        foreach (var user in users)
-        {
-            if (user.Id == id)
-            {
-                return user;
-            }
-        }
-
-        return null; // no match found
     }
 
     public List<User> GetAllPatients()
@@ -52,10 +85,20 @@ public class UserRepository
         return result;
     }
 
+    public User? GetUserById(int id)
+    {
+        foreach (var u in users)
+        {
+            if (u.Id == id)
+                return u;
+        }
+
+        return null;
+    }
+
     // Generate a unique numeric ID that is not already used
     public int GenerateNewId()
     {
-        // id start at 
         int id = 10000;
         while (true)
         {
@@ -77,34 +120,55 @@ public class UserRepository
     // Add a new doctor: update memory and append to data file
     public void AddDoctor(Doctor doctor)
     {
-        // keep in-memory list current
         users.Add(doctor);
-
-        // persist to the same file format your loader expects:
-        // DOCTOR|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
-        using (var fs = new FileStream(usersData, FileMode.Append, FileAccess.Write))
-        using (var writer = new StreamWriter(fs))
-        {
-            writer.WriteLine(
-                $"DOCTOR|-|{doctor.Id}|-|{doctor.Password}|-|{doctor.FullName}|-|{doctor.Email}|-|{doctor.Phone}|-|{doctor.Address}");
-        }
+        AppendUserLine(doctor);
     }
 
     public void AddPatient(Patient patient)
     {
-        // keep in-memory list current
         users.Add(patient);
+        AppendUserLine(patient);
+    }
 
-        // Persist in the same format your loader expects
-        // PATIENT|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
+    // Optional helper to add admins consistently
+    public void AddAdministrator(Administrator admin)
+    {
+        users.Add(admin);
+        AppendUserLine(admin);
+    }
+
+    private void AppendUserLine(User user)
+    {
+        // Persist in the same format your loader expects:
+        // ROLE|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
         using (var fs = new FileStream(usersData, FileMode.Append, FileAccess.Write))
         using (var writer = new StreamWriter(fs))
         {
+            string role = user.Role?.ToUpperInvariant() ?? "USER";
             writer.WriteLine(
-                $"PATIENT|-|{patient.Id}|-|{patient.Password}|-|{patient.FullName}|-|{patient.Email}|-|{patient.Phone}|-|{patient.Address}");
+                $"{role}|-|{user.Id}|-|{user.Password}|-|{user.FullName}|-|{user.Email}|-|{user.Phone}|-|{user.Address}");
         }
     }
-    
+
+    private void SaveAllUsers()
+    {
+        // Rewrite the entire file from the in-memory list
+        using (var fs = new FileStream(usersData, FileMode.Create, FileAccess.Write))
+        using (var writer = new StreamWriter(fs))
+        {
+            // optional headers, if your file already contains them you can remove these two lines
+            writer.WriteLine("# Users Data File");
+            writer.WriteLine("# Format: Role|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address");
+
+            foreach (var user in users)
+            {
+                string role = user.Role?.ToUpperInvariant() ?? "USER";
+                writer.WriteLine(
+                    $"{role}|-|{user.Id}|-|{user.Password}|-|{user.FullName}|-|{user.Email}|-|{user.Phone}|-|{user.Address}");
+            }
+        }
+    }
+
     private void LoadUsers()
     {
         if (!File.Exists(usersData))
@@ -113,46 +177,48 @@ public class UserRepository
             return;
         }
 
-        // Use FileStream to read file
         using (FileStream fs = new FileStream(usersData, FileMode.Open, FileAccess.Read))
+        using (StreamReader reader = new StreamReader(fs))
         {
-            using (StreamReader reader = new StreamReader(fs))
+            string? line;
+            while ((line = reader.ReadLine()) != null)
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
+
+                var parts = line.Split("|-|", StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 7) continue;
+
+                User user;
+
+                var role = parts[0].ToUpperInvariant();
+
+                if (role == "ADMIN")
                 {
-                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
-
-                    var parts = line.Split("|-|", StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length != 7) continue;
-
-                    User user;
-
-                    var role = parts[0].ToUpperInvariant();
-
-                    if (role == "ADMIN")
-                    {
-                        user = new Administrator();
-                    }
-                    else if (role == "DOCTOR")
-                    {
-                        user = new Doctor();
-                    }
-                    else
-                    {
-                        user = new Patient();
-                    }
-
-                    // Format: Role,ID,Password,FullName,Email,PhoneNumber,Address
-                    user.Id = Convert.ToInt32(parts[1]);
-                    user.Password = parts[2];
-                    user.FullName = parts[3];
-                    user.Email = parts[4];
-                    user.Phone = parts[5];
-                    user.Address = parts[6];
-
-                    users.Add(user);
+                    user = new Administrator();
                 }
+                else if (role == "DOCTOR")
+                {
+                    user = new Doctor();
+                }
+                else if (role == "PATIENT")
+                {
+                    user = new Patient();
+                }
+                else
+                {
+                    // Unknown role, default to base User
+                    user = new Patient(); // or new User if it were not abstract
+                }
+
+                // Format: Role,ID,Password,FullName,Email,PhoneNumber,Address
+                user.Id = Convert.ToInt32(parts[1]);
+                user.Password = parts[2];
+                user.FullName = parts[3];
+                user.Email = parts[4];
+                user.Phone = parts[5];
+                user.Address = parts[6];
+
+                users.Add(user);
             }
         }
     }
