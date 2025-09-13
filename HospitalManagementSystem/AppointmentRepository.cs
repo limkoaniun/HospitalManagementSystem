@@ -1,14 +1,22 @@
 namespace HospitalManagementSystem
 {
+    // Appointment repository implementing Generic IRepository interface
     public class AppointmentRepository : IRepository<Appointment>
     {
         private readonly List<Appointment> appointments;
 
-        private readonly string appointmentData =
-            "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/appointment.txt";
-
+        private readonly string appointmentData;
+        
+        // Constructor to load data from file
         public AppointmentRepository()
         {
+            // Start from bin/Debug/net9.0
+            var baseDir = AppContext.BaseDirectory;
+            // Go 3 levels up to project root
+            var projectRoot = Path.GetFullPath(Path.Combine(baseDir, @"../../.."));
+            // Build the path to appointment.txt
+            appointmentData = Path.Combine(projectRoot, "appointment.txt");
+            
             appointments = new List<Appointment>();
             LoadAppointments();
         }
@@ -84,7 +92,7 @@ namespace HospitalManagementSystem
             if (!File.Exists(appointmentData))
             {
                 Console.WriteLine("Appointment data file not found.");
-                return;
+                Environment.Exit(1);
             }
 
             using (FileStream fs = new FileStream(appointmentData, FileMode.Open, FileAccess.Read))

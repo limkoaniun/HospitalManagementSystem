@@ -1,5 +1,6 @@
 namespace HospitalManagementSystem;
 
+// generic interface
 public interface IRepository<T>
 {
     T? GetById(int id);

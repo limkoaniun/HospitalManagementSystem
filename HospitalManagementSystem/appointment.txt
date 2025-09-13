@@ -15,10 +15,4 @@
 40404|-|24681|-|Eye irritation
 50505|-|13268|-|Annual physical exam
 60606|-|97533|-|Fatigue and dizziness
-10001|-|13267|-|flu again
-10001|-|13267|-|flu again 2
-10001|-|13267|-|flu again 2
-44444|-|13267|-|flu
-44444|-|13267|-|flu again
-44444|-|13267|-|flu again 2
-10001|-|13267|-|flu again 1999
+

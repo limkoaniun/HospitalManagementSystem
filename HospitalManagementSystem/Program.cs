@@ -7,10 +7,18 @@ namespace HospitalManagementSystem
         private readonly UserRepository userRepository;
         private readonly AppointmentRepository appointmentRepository;
 
-        private Program()
+        public Program()
         {
             userRepository = new UserRepository();
             appointmentRepository = new AppointmentRepository();
+        }
+
+        ~Program()
+        {
+            // garbage collection
+            GC.Collect(); // 1. force collection
+            GC.WaitForPendingFinalizers(); // 2. wait for finalizers
+            GC.Collect(); // 3. collect finalizable survivors
         }
 
         private User? Login()
@@ -60,16 +68,8 @@ namespace HospitalManagementSystem
                 }
 
                 Console.WriteLine("Welcome, {0} ({1})", currentUser.FullName, currentUser.Role);
-                // -------- Run the role-specific menu (as in Doctor/Admin/Patient menu) ------------
+                // Run the role-specific menu (as in Doctor/Admin/Patient menu)
                 currentUser.Run(userRepository, appointmentRepository);
-                // ----------------------------------------------------------------------------------
-
-                // -------- Garbage collection : after a session ends -------
-                currentUser = null; // drop strong reference
-                GC.Collect(); // force collection
-                GC.WaitForPendingFinalizers(); // wait for finalizers (demo)
-                GC.Collect(); // collect finalizable survivors
-                // ----------------------------------------------------------
             }
         }
 

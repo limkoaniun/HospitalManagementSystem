@@ -6,11 +6,17 @@ public class UserRepository : IRepository<User>
 {
     private readonly List<User> users;
 
-    private readonly string usersData =
-        "/Users/koanlin/RiderProjects/HospitalManagementSystem/HospitalManagementSystem/data.txt";
+    private readonly string usersData;
 
     public UserRepository()
     {
+        // Start from bin/Debug/net9.0
+        var baseDir = AppContext.BaseDirectory;
+        // Go 3 levels up to project root
+        var projectRoot = Path.GetFullPath(Path.Combine(baseDir, @"../../.."));
+        // Build the path to appointment.txt
+        usersData = Path.Combine(projectRoot, "data.txt");
+        
         users = new List<User>();
         LoadUsers();
     }
@@ -59,8 +65,6 @@ public class UserRepository : IRepository<User>
         SaveAllUsers();
     }
 
-    // Existing convenience methods you already use elsewhere
-
     public List<User> GetAllDoctors()
     {
         var result = new List<User>();
@@ -69,6 +73,12 @@ public class UserRepository : IRepository<User>
             if (u.Role == "DOCTOR")
                 result.Add(u);
         }
+
+        // Anonymous method with 'delegate' keyword
+        result.Sort(delegate(User u1, User u2)
+        {
+            return string.Compare(u1.FullName, u2.FullName, StringComparison.OrdinalIgnoreCase);
+        });
 
         return result;
     }
