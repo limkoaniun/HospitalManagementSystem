@@ -17,7 +17,6 @@ namespace HospitalManagementSystem
         }
 
         // Destructor demonstrates garbage collection - forces cleanup when program ends
-        // This is an example for educational purposes - normally not needed in production
         ~Program()
         {
             // Garbage collection example showing the three-step process
@@ -57,7 +56,7 @@ namespace HospitalManagementSystem
 
             // Verify credentials against stored user data from text file
             var currentUser = userRepository.GetUserById(idInput);
-            
+
             // Check if user exists and password matches
             if (currentUser == null || currentUser.Password != password)
             {
@@ -77,7 +76,7 @@ namespace HospitalManagementSystem
             {
                 // Attempt to log in user
                 var currentUser = Login();
-                
+
                 // Handle failed login attempts
                 if (currentUser == null)
                 {
@@ -89,11 +88,11 @@ namespace HospitalManagementSystem
 
                 // Successful login - display welcome message
                 Console.WriteLine("Welcome, {0} ({1})", currentUser.FullName, currentUser.Role);
-                
+
                 // Run the role-specific menu based on user type (Doctor/Admin/Patient)
                 // This uses polymorphism - each user type has its own Run implementation
                 currentUser.Run(userRepository, appointmentRepository);
-                
+
                 // When Run() returns, user has logged out - loop continues to login screen
             }
         }

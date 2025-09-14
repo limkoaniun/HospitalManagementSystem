@@ -44,7 +44,7 @@ public class Patient : User
             var chosenDoctorIndex = Console.ReadLine();
             Console.Write("Description of symptoms: ");
             string symptomDescription = Console.ReadLine();
-            
+
             // Create appointment with chosen doctor
             var chosenDoctorId = availableDoctors[Convert.ToInt32(chosenDoctorIndex) - 1].Id;
             appointmentRepository.AddAppointment(this.Id, chosenDoctorId, symptomDescription);
@@ -54,12 +54,12 @@ public class Patient : User
             // Existing patient - book with their assigned doctor
             var linkedDoctorId = existingAppointments[0].DoctorID;
             selectedDoctor = userRepository.GetUserById(linkedDoctorId);
-            
+
             // Display current doctor and get symptom description
             Console.WriteLine($"You are booking a new appointment with {selectedDoctor.FullName}.");
             Console.Write("Description of symptoms: ");
             string symptomDescription = Console.ReadLine();
-            
+
             // Create appointment with existing doctor
             appointmentRepository.AddAppointment(this.Id, selectedDoctor.Id, symptomDescription);
         }

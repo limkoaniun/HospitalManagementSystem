@@ -23,10 +23,10 @@ public class Doctor : User
         Console.WriteLine(new string('-', 90));
 
         // Format doctor details with null-safe fallbacks
-        string name = FullName ?? $"Doctor#{Id}";     // Use ID if name is null
-        string email = Email ?? "";                   // Empty string if null
-        string phone = Phone ?? "";                   // Empty string if null
-        string address = Address ?? "";               // Empty string if null
+        string name = FullName ?? $"Doctor#{Id}"; // Use ID if name is null
+        string email = Email ?? ""; // Empty string if null
+        string phone = Phone ?? ""; // Empty string if null
+        string address = Address ?? ""; // Empty string if null
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
@@ -67,7 +67,7 @@ public class Doctor : User
         {
             // Retrieve patient details from repository
             var patient = userRepository.GetUserById(pid);
-            
+
             // Skip if user not found or not a patient
             if (patient == null || patient.Role != "PATIENT") continue;
 
@@ -155,7 +155,7 @@ public class Doctor : User
         // Find the patient's assigned doctor through appointment records
         string assignedDoctorName = "Unassigned"; // Default if no doctor assigned
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
-        
+
         // Look for the first appointment to determine assigned doctor
         foreach (var a in appts)
         {
@@ -227,7 +227,7 @@ public class Doctor : User
             if (a.DoctorID != this.Id || a.PatientID != patientId) continue;
 
             any = true;
-            
+
             // Format names with fallback values
             string doctorName = this.FullName ?? $"Doctor#{this.Id}";
             string patientName = patient.FullName ?? $"Patient#{patientId}";
