@@ -1,44 +1,53 @@
 namespace HospitalManagementSystem;
-// inherited from User class
+
+// Doctor class represents medical professionals in the hospital system
+// Inheritance example - Doctor inherits from the abstract User base class
 public class Doctor : User
 {
+    // Constructor sets the role to DOCTOR when a new doctor object is created
     public Doctor()
     {
         Role = "DOCTOR";
     }
 
+    // Displays the current doctor's personal information in a formatted table
+    // Shows name, email, phone, and address details
     public void RenderDoctorDetails()
     {
         Console.Clear();
 
         Ui.RenderHeader("My Details");
 
-        // Table header
+        // Display table header with column names
         Console.WriteLine($"{"Name",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
         Console.WriteLine(new string('-', 90));
 
-        // Row for this doctor
-        string name = FullName ?? $"Doctor#{Id}";
-        string email = Email ?? "";
-        string phone = Phone ?? "";
-        string address = Address ?? "";
+        // Format doctor details with null-safe fallbacks
+        string name = FullName ?? $"Doctor#{Id}";     // Use ID if name is null
+        string email = Email ?? "";                   // Empty string if null
+        string phone = Phone ?? "";                   // Empty string if null
+        string address = Address ?? "";               // Empty string if null
 
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
 
+    // Displays all patients assigned to this doctor through appointments
+    // Parameters: repositories for accessing user and appointment data
     public void RenderPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
         Ui.RenderHeader("My Patients");
 
-        // Find all appointments where this doctor is involved
+        // Get all appointments for this doctor
         var appts = appointmentRepository.GetAppointmentsByUserID(Id);
 
-        // Collect unique patient IDs
+        // Extract unique patient IDs from appointments
+        // Using HashSet to automatically handle duplicates
         var patientIds = new HashSet<int>();
         foreach (var a in appts)
         {
-            if (a.DoctorID == Id) // be explicit that these are your patients
+            // Only add patients where this doctor is the assigned doctor
+            if (a.DoctorID == Id)
                 patientIds.Add(a.PatientID);
         }
 
@@ -53,10 +62,13 @@ public class Doctor : User
         Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-25} | {"Phone",-12} | Address");
         Console.WriteLine(new string('-', 120));
 
-        // Print each patient on one line
+        // Display each patient's information in table format
         foreach (var pid in patientIds)
         {
+            // Retrieve patient details from repository
             var patient = userRepository.GetUserById(pid);
+            
+            // Skip if user not found or not a patient
             if (patient == null || patient.Role != "PATIENT") continue;
 
             string pName = patient.FullName ?? $"Patient#{pid}";
@@ -69,6 +81,8 @@ public class Doctor : User
         }
     }
 
+    // Displays all appointments for this doctor
+    // Shows doctor name, patient name, and symptom description for each appointment
     public void RenderAppointments(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -78,13 +92,14 @@ public class Doctor : User
         Console.WriteLine($"{"Doctor",-20} | {"Patient",-20} | Description");
         Console.WriteLine(new string('-', 70));
 
-        // Get only this doctor's appointments
+        // Get all appointments involving this doctor
         var appts = appointmentRepository.GetAppointmentsByUserID(Id);
 
-        // Keep only rows where this doctor is the doctor
+        // Filter and display only appointments where this user is the doctor
         var hasAny = false;
         foreach (var a in appts)
         {
+            // Skip appointments where this doctor is not the assigned doctor
             if (a.DoctorID != Id) continue;
 
             hasAny = true;
@@ -106,6 +121,8 @@ public class Doctor : User
     }
 
 
+    // Allows doctor to view detailed information about a specific patient
+    // Prompts for patient ID and displays their contact details and assigned doctor
     public void RenderCheckPatient(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -115,6 +132,8 @@ public class Doctor : User
         string? input = Console.ReadLine();
 
         int patientId;
+        // Validate and parse the patient ID input
+        // Exception handling for invalid ID format (non-numeric input)
         try
         {
             patientId = Convert.ToInt32(input);
@@ -122,9 +141,10 @@ public class Doctor : User
         catch
         {
             Console.WriteLine("Invalid ID format.");
-            return;
+            return; // Exit if ID is invalid
         }
 
+        // Verify the patient exists in the system
         var patient = userRepository.GetUserById(patientId);
         if (patient == null || patient.Role != "PATIENT")
         {
@@ -132,16 +152,20 @@ public class Doctor : User
             return;
         }
 
-        string assignedDoctorName = "Unassigned";
+        // Find the patient's assigned doctor through appointment records
+        string assignedDoctorName = "Unassigned"; // Default if no doctor assigned
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
+        
+        // Look for the first appointment to determine assigned doctor
         foreach (var a in appts)
         {
             if (a.PatientID == patientId)
             {
+                // Retrieve doctor information
                 var d = userRepository.GetUserById(a.DoctorID);
                 if (d != null && d.Role == "DOCTOR")
                     assignedDoctorName = d.FullName ?? $"Doctor#{a.DoctorID}";
-                break; // first match is enough
+                break; // First match is enough - assuming one doctor per patient
             }
         }
 
@@ -157,6 +181,8 @@ public class Doctor : User
         Console.WriteLine($"{pName,-20} | {assignedDoctorName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
+    // Displays appointments between this doctor and a specific patient
+    // Prompts for patient ID and shows all appointments with that patient
     public void RenderAppointmentsWithPatient(UserRepository userRepository,
         AppointmentRepository appointmentRepository)
     {
@@ -167,6 +193,8 @@ public class Doctor : User
         string? input = Console.ReadLine();
 
         int patientId;
+        // Validate and parse the patient ID input
+        // Exception handling for invalid ID format (non-numeric input)
         try
         {
             patientId = Convert.ToInt32(input);
@@ -174,9 +202,10 @@ public class Doctor : User
         catch
         {
             Console.WriteLine("Invalid ID format.");
-            return;
+            return; // Exit if ID is invalid
         }
 
+        // Verify patient exists before proceeding
         var patient = userRepository.GetUserById(patientId);
         if (patient == null || patient.Role != "PATIENT")
         {
@@ -190,12 +219,16 @@ public class Doctor : User
 
         var appts = appointmentRepository.GetAppointmentsByUserID(patientId);
 
+        // Filter and display appointments between this doctor and the specified patient
         bool any = false;
         foreach (var a in appts)
         {
+            // Only show appointments where both doctor and patient match
             if (a.DoctorID != this.Id || a.PatientID != patientId) continue;
 
             any = true;
+            
+            // Format names with fallback values
             string doctorName = this.FullName ?? $"Doctor#{this.Id}";
             string patientName = patient.FullName ?? $"Patient#{patientId}";
             string desc = a.SymptomsDescription ?? "";
@@ -209,8 +242,9 @@ public class Doctor : User
         }
     }
 
-    // abstract method: run the menu for this user type
-    // method override in subclasses
+    // Main menu system for doctor users
+    // Method overriding example - overrides abstract Run method from User class
+    // Provides doctor-specific functionality and menu options
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)
@@ -237,6 +271,7 @@ public class Doctor : User
             Console.Write("Enter your choice: ");
             var choice = (Console.ReadLine() ?? string.Empty).Trim();
 
+            // Process user's menu choice
             switch (choice)
             {
                 case "1":
@@ -260,10 +295,12 @@ public class Doctor : User
                     break;
 
                 case "6":
+                    // Logout functionality - returns to login screen
                     Console.WriteLine("Logging out...");
                     return;
 
                 case "7":
+                    // Exit functionality - terminates the entire application
                     Console.WriteLine("Exiting system...");
                     Environment.Exit(0);
                     break;

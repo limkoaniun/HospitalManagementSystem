@@ -1,13 +1,13 @@
 namespace HospitalManagementSystem
 {
-    // Appointment repository implementing Generic IRepository interface
+    // generic interface implementation - AppointmentRepository implements IRepository<Appointment>
     public class AppointmentRepository : IRepository<Appointment>
     {
         private readonly List<Appointment> appointments;
 
         private readonly string appointmentData;
 
-        // Constructor to load data from file
+        // constructor
         public AppointmentRepository()
         {
             // Start from bin/Debug/net9.0
@@ -47,8 +47,7 @@ namespace HospitalManagementSystem
             SaveAllAppointments();
         }
 
-        // method overloading for these 2 AddAppointment methods
-        // to keep the interface simple
+        // method overloading example - same method name, different parameters
         public void AddAppointment(Appointment appointment)
         {
             // 1 append in memory
@@ -64,6 +63,7 @@ namespace HospitalManagementSystem
             Console.WriteLine("The appointment has been booked successfully");
         }
 
+        // method overloading example - same method name, different parameters
         public void AddAppointment(int patientId, int doctorId, string description)
         {
             AddAppointment(new Appointment
@@ -127,7 +127,6 @@ namespace HospitalManagementSystem
             using (var fs = new FileStream(appointmentData, FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(fs))
             {
-                // Keep header if you like. If your file does not have it, remove these two lines.
                 writer.WriteLine("# Patient-to-Doctor Appointments");
                 writer.WriteLine("# Format: PatientID|-|DoctorID|-|SymptomDescription");
 

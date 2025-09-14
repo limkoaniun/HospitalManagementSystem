@@ -1,6 +1,6 @@
 namespace HospitalManagementSystem;
 
-// generic interface
+// generic example - generic interface with type parameter T
 public interface IRepository<T>
 {
     T? GetById(int id);

@@ -2,12 +2,14 @@ namespace HospitalManagementSystem;
 
 using System.IO;
 
+// generic interface implementation - UserRepository implements IRepository<User>
 public class UserRepository : IRepository<User>
 {
     private readonly List<User> users;
 
     private readonly string usersData;
 
+    // constructor
     public UserRepository()
     {
         // Start from bin/Debug/net9.0
@@ -74,7 +76,7 @@ public class UserRepository : IRepository<User>
                 result.Add(u);
         }
 
-        // Anonymous method with 'delegate' keyword
+        // anonymous method with delegate keyword for sorting
         result.Sort(delegate(User u1, User u2)
         {
             return string.Compare(u1.FullName, u2.FullName, StringComparison.OrdinalIgnoreCase);
@@ -149,7 +151,6 @@ public class UserRepository : IRepository<User>
 
     private void AppendUserLine(User user)
     {
-        // Persist in the same format your loader expects:
         // ROLE|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
         using (var fs = new FileStream(usersData, FileMode.Append, FileAccess.Write))
         using (var writer = new StreamWriter(fs))
@@ -166,7 +167,6 @@ public class UserRepository : IRepository<User>
         using (var fs = new FileStream(usersData, FileMode.Create, FileAccess.Write))
         using (var writer = new StreamWriter(fs))
         {
-            // optional headers, if your file already contains them you can remove these two lines
             writer.WriteLine("# Users Data File");
             writer.WriteLine("# Format: Role|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address");
 

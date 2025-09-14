@@ -1,12 +1,15 @@
 namespace HospitalManagementSystem;
-// inherited from User class
+
+// inheritance example - Administrator inherits from User
 public class Administrator : User
 {
+    // constructor
     public Administrator()
     {
         Role = "ADMIN";
     }
 
+    // list all doctors
     private void RenderAllDoctorsDetails(UserRepository userRepository)
     {
         Console.Clear();
@@ -35,6 +38,7 @@ public class Administrator : User
         }
     }
 
+    // check doctor details
     private void RenderDoctorDetailsWithId(UserRepository userRepository)
     {
         Console.Clear();
@@ -47,6 +51,7 @@ public class Administrator : User
             return;
 
         int docId;
+        // exception handling for invalid ID format
         try
         {
             docId = Convert.ToInt32(input);
@@ -78,6 +83,7 @@ public class Administrator : User
         Console.WriteLine($"{name,-20} | {email,-25} | {phone,-12} | {address}");
     }
 
+    // list all patients
     private void RenderAllPatientsDetails(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -123,6 +129,7 @@ public class Administrator : User
         }
     }
 
+    // check patient details
     private void RenderPatientDetailsWithId(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         Console.Clear();
@@ -135,6 +142,7 @@ public class Administrator : User
             return;
 
         int patientId;
+        // exception handling for invalid ID format
         try
         {
             patientId = Convert.ToInt32(input);
@@ -180,6 +188,7 @@ public class Administrator : User
         Console.WriteLine($"{patientName,-20} | {doctorName,-20} | {email,-25} | {phone,-12} | {addr}");
     }
 
+    // add doctor
     private void RenderAddDoctor(UserRepository userRepository)
     {
         Console.Clear();
@@ -234,6 +243,7 @@ public class Administrator : User
         Console.WriteLine($"Doctor {doctor.FullName} (ID {doctor.Id}) added to the system!");
     }
 
+    // add patient
     private void RenderAddPatient(UserRepository userRepository)
     {
         Console.Clear();
@@ -282,8 +292,7 @@ public class Administrator : User
         Console.WriteLine($"Patient {patient.FullName} (ID {patient.Id}) added to the system!");
     }
 
-    // abstract method: run the menu for this user type
-    // method override in subclasses
+    // method overriding example - overrides abstract Run method from User class
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)
@@ -338,10 +347,12 @@ public class Administrator : User
                     break;
 
                 case "7":
+                    // logout functionality
                     Console.WriteLine("Logging out...");
                     return; // back to login
 
                 case "8":
+                    // exit functionality
                     Console.WriteLine("Exiting system...");
                     Environment.Exit(0);
                     break;
