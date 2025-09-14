@@ -1,0 +1,10 @@
+# Users Data File
+# Format: Role|-|ID|-|Password|-|FullName|-|Email|-|Phone|-|Address
+# IDs are 5-8 digit ints, and are unique within the file
+
+ADMIN|-|12345|-|admin123|-|David Adminson|-|david.adminson@hospital.com|-|0412001000|-|19 George Street, Sydney, NSW
+DOCTOR|-|13267|-|password123|-|Jack Doctorson|-|drjack@hospital.com|-|0412102000|-|12 Oxford Street, Paddington, NSW
+DOCTOR|-|54321|-|doctor123|-|Emily Chen|-|emily.chen@hospital.com|-|0412102001|-|34 Crown Street, Surry Hills, NSW
+PATIENT|-|10001|-|pass123|-|Jane Smith|-|jane.smith@email.com|-|0412303000|-|101 Harris Street, Pyrmont, NSW
+PATIENT|-|22222|-|mypass456|-|Robert Johnson|-|r.johnson@email.com|-|0412303001|-|202 Kent Street, Millers Point, NSW
+PATIENT|-|33333|-|secure789|-|Maria Garcia|-|m.garcia@email.com|-|0412303002|-|303 Sussex Street, Sydney, NSW

@@ -1,5 +1,5 @@
 namespace HospitalManagementSystem;
-
+// inherited from User class
 public class Doctor : User
 {
     public Doctor()
@@ -209,7 +209,8 @@ public class Doctor : User
         }
     }
 
-
+    // abstract method: run the menu for this user type
+    // method override in subclasses
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)

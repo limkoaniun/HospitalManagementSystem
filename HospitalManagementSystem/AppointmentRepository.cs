@@ -6,7 +6,7 @@ namespace HospitalManagementSystem
         private readonly List<Appointment> appointments;
 
         private readonly string appointmentData;
-        
+
         // Constructor to load data from file
         public AppointmentRepository()
         {
@@ -16,7 +16,7 @@ namespace HospitalManagementSystem
             var projectRoot = Path.GetFullPath(Path.Combine(baseDir, @"../../.."));
             // Build the path to appointment.txt
             appointmentData = Path.Combine(projectRoot, "appointment.txt");
-            
+
             appointments = new List<Appointment>();
             LoadAppointments();
         }
@@ -24,8 +24,8 @@ namespace HospitalManagementSystem
         // IRepository<Appointment> implementation
         public Appointment? GetById(int id)
         {
-            // Not supported because Appointment has no unique Id field.
-            // Keep this to satisfy the generic interface for the assignment.
+            // Not supported because Appointment has no unique ID field
+            // this is to satisfy the generic interface
             throw new NotSupportedException("Appointment does not have a unique Id.");
         }
 
@@ -47,13 +47,14 @@ namespace HospitalManagementSystem
             SaveAllAppointments();
         }
 
-        // method overloading
+        // method overloading for these 2 AddAppointment methods
+        // to keep the interface simple
         public void AddAppointment(Appointment appointment)
         {
-            // 1) append in memory
+            // 1 append in memory
             appointments.Add(appointment);
 
-            // 2) append to file in the exact format your loader expects:
+            // 2 append to file in the exact format your loader expects:
             // PatientID|-|DoctorID|-|SymptomDescription
             using (var sw = new StreamWriter(appointmentData, append: true))
             {

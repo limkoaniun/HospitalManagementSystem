@@ -15,8 +15,8 @@ public class UserRepository : IRepository<User>
         // Go 3 levels up to project root
         var projectRoot = Path.GetFullPath(Path.Combine(baseDir, @"../../.."));
         // Build the path to appointment.txt
-        usersData = Path.Combine(projectRoot, "data.txt");
-        
+        usersData = Path.Combine(projectRoot, "user.txt");
+
         users = new List<User>();
         LoadUsers();
     }

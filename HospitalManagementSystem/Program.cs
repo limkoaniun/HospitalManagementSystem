@@ -29,7 +29,8 @@ namespace HospitalManagementSystem
             Console.Write("ID: ");
             string? idText = Console.ReadLine();
             int idInput;
-
+            
+            // exception handling for invalid ID format
             try
             {
                 idInput = Convert.ToInt32(idText);

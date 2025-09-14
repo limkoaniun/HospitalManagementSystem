@@ -1,7 +1,6 @@
-using System.Collections;
-
 namespace HospitalManagementSystem;
 
+// inherited from User class
 public class Patient : User
 {
     public Patient()
@@ -156,6 +155,8 @@ public class Patient : User
         Console.WriteLine("Phone: {0}", Phone);
     }
 
+    // abstract method: run the menu for this user type
+    // method override in subclasses
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)

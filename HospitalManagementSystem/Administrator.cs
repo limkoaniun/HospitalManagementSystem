@@ -1,5 +1,5 @@
 namespace HospitalManagementSystem;
-
+// inherited from User class
 public class Administrator : User
 {
     public Administrator()
@@ -198,8 +198,8 @@ public class Administrator : User
 
         // If user forgot the Dr. prefix, add it for them
         string finalName = fullName.Trim();
-        if (!finalName.StartsWith("Dr"))
-            finalName = "Dr. " + finalName;
+        // if (!finalName.StartsWith("Dr"))
+        //     finalName = "Dr. " + finalName;
 
         Console.Write("Email: ");
         string? email = Console.ReadLine();
@@ -282,7 +282,8 @@ public class Administrator : User
         Console.WriteLine($"Patient {patient.FullName} (ID {patient.Id}) added to the system!");
     }
 
-
+    // abstract method: run the menu for this user type
+    // method override in subclasses
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)

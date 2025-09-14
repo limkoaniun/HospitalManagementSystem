@@ -5,14 +5,5 @@
 22222|-|54321|-|Back pain
 33333|-|13267|-|Migraine headaches
 55555|-|24680|-|High blood pressure
-66666|-|86420|-|Diabetes follow-up
-77777|-|13579|-|Asthma management
-88888|-|54322|-|Allergic reaction
-99999|-|97532|-|Pregnancy consultation
-10101|-|86421|-|Sprained ankle
-20202|-|98766|-|Persistent cough
-30303|-|54323|-|Ear infection
-40404|-|24681|-|Eye irritation
-50505|-|13268|-|Annual physical exam
-60606|-|97533|-|Fatigue and dizziness
+
 

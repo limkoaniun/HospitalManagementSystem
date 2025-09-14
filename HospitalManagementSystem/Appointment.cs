@@ -6,6 +6,7 @@ public class Appointment
     public int DoctorID { get; set; }
     public string SymptomsDescription { get; set; } = string.Empty;
 
+    // override ToString() method to display appointment details
     public override string ToString()
     {
         return $"{PatientID}|-|{DoctorID}|-|{SymptomsDescription}";
