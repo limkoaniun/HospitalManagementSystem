@@ -1,7 +1,7 @@
 namespace HospitalManagementSystem;
 
 // Doctor class represents medical professionals in the hospital system
-// Inheritance example - Doctor inherits from the abstract User base class
+// Inheritance - Doctor inherits from the abstract User base class
 public class Doctor : User
 {
     // Constructor sets the role to DOCTOR when a new doctor object is created
@@ -243,7 +243,7 @@ public class Doctor : User
     }
 
     // Main menu system for doctor users
-    // Method overriding example - overrides abstract Run method from User class
+    // Method overriding - overrides abstract Run method from User class
     // Provides doctor-specific functionality and menu options
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {

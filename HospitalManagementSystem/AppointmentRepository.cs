@@ -47,13 +47,13 @@ namespace HospitalManagementSystem
             SaveAllAppointments();
         }
 
-        // method overloading example - same method name, different parameters
+        // method overloading - same method name, different parameters
         public void AddAppointment(Appointment appointment)
         {
             // 1 append in memory
             appointments.Add(appointment);
 
-            // 2 append to file in the exact format your loader expects:
+            // 2 append to file in the exact format the loader expects:
             // PatientID|-|DoctorID|-|SymptomDescription
             using (var sw = new StreamWriter(appointmentData, append: true))
             {
@@ -63,7 +63,7 @@ namespace HospitalManagementSystem
             Console.WriteLine("The appointment has been booked successfully");
         }
 
-        // method overloading example - same method name, different parameters
+        // method overloading - same method name, different parameters
         public void AddAppointment(int patientId, int doctorId, string description)
         {
             AddAppointment(new Appointment

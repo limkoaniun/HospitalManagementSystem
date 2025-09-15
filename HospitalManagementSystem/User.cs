@@ -15,7 +15,7 @@ public abstract class User
     public string Address { get; set; } // Physical address
 
     // Abstract method that must be implemented by each derived class
-    // This is an example of method overriding - each user type has its own menu system
+    // method overriding - each user type has its own menu system
     // Parameters: repositories needed to access user and appointment data
     public abstract void Run(UserRepository userRepository, AppointmentRepository appointmentRepository);
 }

@@ -1,7 +1,7 @@
 namespace HospitalManagementSystem;
 
 // Patient class represents patients in the hospital system
-// Inheritance example - Patient inherits from the abstract User base class
+// Inheritance - Patient inherits from the abstract User base class
 public class Patient : User
 {
     // Constructor sets the role to PATIENT when a new patient object is created
@@ -184,7 +184,7 @@ public class Patient : User
     }
 
     // Main menu system for patient users
-    // Method overriding example - overrides abstract Run method from User class
+    // Method overriding - overrides abstract Run method from User class
     // Provides patient-specific functionality and menu options
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {

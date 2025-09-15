@@ -17,7 +17,7 @@ internal static class Ui
         Console.WriteLine();
     }
 
-    // extension method example - extends Program class with password masking functionality
+    // extension method - extends Program class with password masking functionality
     public static string ReadPasswordMasked(this Program program)
     {
         var pwd = new System.Text.StringBuilder();

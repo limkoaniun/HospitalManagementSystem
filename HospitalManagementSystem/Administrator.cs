@@ -1,6 +1,6 @@
 namespace HospitalManagementSystem;
 
-// inheritance example - Administrator inherits from User
+// inheritance - Administrator inherits from User
 public class Administrator : User
 {
     // constructor
@@ -292,7 +292,7 @@ public class Administrator : User
         Console.WriteLine($"Patient {patient.FullName} (ID {patient.Id}) added to the system!");
     }
 
-    // method overriding example - overrides abstract Run method from User class
+    // method overriding - overrides abstract Run method from User class
     public override void Run(UserRepository userRepository, AppointmentRepository appointmentRepository)
     {
         while (true)

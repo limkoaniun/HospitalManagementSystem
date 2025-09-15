@@ -26,7 +26,7 @@ public class UserRepository : IRepository<User>
     // IRepository<User> implementation
     public User? GetById(int id)
     {
-        // delegate to your existing method
+        // delegate to the existing method
         return GetUserById(id);
     }
 

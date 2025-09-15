@@ -19,7 +19,7 @@ namespace HospitalManagementSystem
         // Destructor demonstrates garbage collection - forces cleanup when program ends
         ~Program()
         {
-            // Garbage collection example showing the three-step process
+            // Garbage collection
             GC.Collect(); // 1. Force immediate garbage collection
             GC.WaitForPendingFinalizers(); // 2. Wait for all finalizers to complete
             GC.Collect(); // 3. Collect objects that were finalized
